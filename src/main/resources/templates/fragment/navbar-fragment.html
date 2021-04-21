@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec = "http://www.springframework.org/schema/security">
+<body>
+    <!--Home items of navbar-->
+    <ul class="navbar-nav ml-auto" th:fragment="home-navbar-items">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/login}">Войти</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/registration}">Регистрация</a>
+        </li>
+    </ul>
+
+    <!--Sign in items of navbar-->
+    <ul class="navbar-nav ml-auto" th:fragment="sign-in-navbar-items">
+        <li class="nav-item" sec:authorize="hasRole('USER')">
+            <a class="nav-link" href="#">Юзер</a>
+        </li>
+        <li class="nav-item" sec:authorize="hasRole('ADMIN')">
+            <a class="nav-link" href="#">Админ</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/perform_logout}">Выйти</a>
+        </li>
+    </ul>
+</body>
+</html>

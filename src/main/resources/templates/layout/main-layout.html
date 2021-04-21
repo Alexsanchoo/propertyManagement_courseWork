@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:fragment="main-fragment(navBar, mainContext)">
+<head>
+    <meta charset="UTF-8">
+    <title>Sanchoo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+</head>
+<body>
+<header>
+    <nav class="navbar navbar-expand-sm bg-light">
+        <a class="nav-link navbar-brand" th:href="@{/}">Sanchoo</a>
+        <ul th:replace="${navBar} ? ${navBar} : ~{}"></ul>
+    </nav>
+
+    <nav class="navbar navbar-expand-sm bg-dark justify-content-center">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="#">О платформе</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Каталог недвижимости</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Услуги платформы</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Тех. поддержка</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<main th:replace="${mainContext}? ${mainContext} : ~{}">
+</main>
+
+<footer class="footer bg-dark">
+    <div class="container">
+        <p class="text-light">© 2021 Платформа управления недвижимостью "Sanchoo". Все права защищены</p>
+    </div>
+</footer>
+<script th:src="@{/js/jquery-3.5.1.min.js}"></script>
+<script th:src="@{/js/bootstrap.bundle.min.js}"></script>
+</body>
+</html>

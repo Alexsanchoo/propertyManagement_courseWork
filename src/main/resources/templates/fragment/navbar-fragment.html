@@ -23,11 +23,39 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">Избранное</a>
             </li>
+
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     Профиль
                 </a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu dropdown-menu-right">
+                    <a class="dropdown-item" href="#">Редактировать профиль</a>
+                    <a class="dropdown-item" href="#">Изменить пароль</a>
+                    <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
+                </div>
+            </li>
+        </th:block>
+
+        <!--Moderator items of navbar-->
+        <th:block th:fragment="moderator-navbar-items">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Мои объявления</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Подать объявление</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Избранное</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Объявления на проверку</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                    Профиль
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="#">Редактировать профиль</a>
                     <a class="dropdown-item" href="#">Изменить пароль</a>
                     <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
@@ -37,11 +65,17 @@
 
         <!--Admin items of navbar-->
         <th:block th:fragment="admin-navbar-items">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Тех. поддержка</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Список пользователей</a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
                     Профиль
                 </a>
-                <div class="dropdown-menu">
+                <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item" href="#">Редактировать профиль</a>
                     <a class="dropdown-item" href="#">Изменить пароль</a>
                     <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>

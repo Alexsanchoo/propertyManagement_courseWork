@@ -20,6 +20,16 @@
       )}">
 </html>
 
+<!--Home for moderator-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="hasRole('MODERATOR')"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: moderator-navbar-items},
+      ~{fragment/home-fragment :: main}
+      )}">
+</html>
+
 <!--Home for admin-->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/schema/security"

@@ -1,14 +1,21 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Error</title>
-</head>
-<body>
-<a th:href="@{/login}">Login</a>
-<h1>Error occurred</h1>
-<p>
-    An error has occurred. Please contact the administrator
-</p>
-</body>
+
+<!--Home for guests-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="!isAuthenticated()"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: home-navbar-items},
+      ~{fragment/error-fragment :: error}
+      )}">
+</html>
+
+<!--Home for user-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="hasRole('USER')"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: user-navbar-items},
+      ~{fragment/error-fragment :: error}
+      )}">
 </html>

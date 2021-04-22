@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      th:fragment="main-fragment(logoLink, navBar, mainContext)">
+      th:fragment="main-fragment(navBar, mainContext)">
 <head>
     <meta charset="UTF-8">
     <title>Sanchoo</title>
@@ -11,7 +11,7 @@
 <body>
 <header>
     <nav class="navbar navbar-expand-sm bg-light">
-        <a th:replace="${logoLink}"></a>
+        <a class="nav-link navbar-brand" th:href="@{/}" th:fragment="home-logo-link">Sanchoo</a>
         <ul th:replace="${navBar}"></ul>
     </nav>
 

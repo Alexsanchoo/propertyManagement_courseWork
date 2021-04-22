@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Set;
 
 @Data
@@ -27,8 +28,9 @@ public class User {
 	private int id;
 
 	@Column(name = "user_name")
-	@Length(min = 5, message = "*Ваше имя пользователя должно содержать минимум 5 символов")
+	@Length(min = 5, max = 30, message = "*Ваше имя пользователя должно содержать от 5 до 30 символов")
 	@NotBlank(message = "*Пожалуйста, укажите имя пользователя")
+	@Pattern(regexp = "^[A-Za-z0-9\\_\\.]+$", message = "*Имя пользователя может содержать только \"A-Z\", \"a-z\", \"0-9\", \"_\" и \".\"")
 	private String userName;
 
 	@Column(name = "password")
@@ -40,16 +42,18 @@ public class User {
 	private String matchingPassword;
 
 	@Column(name = "email")
-	@Email(message = "*Пожалуйста, кажите корректную почту")
+	@Email(message = "*Пожалуйста, укажите корректную почту")
 	@NotBlank(message = "*Пожалуйста, укажите почту")
 	private String email;
 
 	@Column(name = "first_name")
 	@NotBlank(message = "*Пожалуйста, укажите своё имя")
+	@Pattern(regexp = "^[A-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно своё имя")
 	private String firstName;
 
 	@Column(name = "last_name")
 	@NotBlank(message = "*Пожалуйста, укажите свою фамилию")
+	@Pattern(regexp = "^[A-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно свою фамилию")
 	private String lastName;
 
 	@Column(name = "active")

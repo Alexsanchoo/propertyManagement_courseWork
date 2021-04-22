@@ -23,7 +23,7 @@ public class LoginController {
 	@Autowired
 	private UserValidator userValidator;
 
-	@GetMapping(value = {"/", "/home"})
+	@GetMapping("/")
 	public ModelAndView home() {
 		ModelAndView modelAndView = new ModelAndView("home");
 		return modelAndView;
@@ -60,9 +60,9 @@ public class LoginController {
 		return modelAndView;
 	}
 
-	@GetMapping(value = "/user/home")
+	/*@GetMapping(value = "/user/home")
 	public ModelAndView signInHome() {
 		ModelAndView modelAndView = new ModelAndView("user/home");
 		return modelAndView;
-	}
+	}*/
 }

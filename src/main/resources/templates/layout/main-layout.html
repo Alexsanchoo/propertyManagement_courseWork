@@ -12,7 +12,9 @@
 <header>
     <nav class="navbar navbar-expand-sm bg-light">
         <a class="nav-link navbar-brand" th:href="@{/}" th:fragment="home-logo-link">Sanchoo</a>
-        <ul th:replace="${navBar}"></ul>
+        <ul class="navbar-nav ml-auto">
+            <th:block th:replace="${navBar}"></th:block>
+        </ul>
     </nav>
 
     <nav class="navbar navbar-expand-sm bg-dark justify-content-center">

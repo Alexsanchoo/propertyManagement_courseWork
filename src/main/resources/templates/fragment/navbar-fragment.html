@@ -1,21 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <!--Home items of navbar-->
-    <ul class="navbar-nav ml-auto" th:fragment="home-navbar-items">
+    <ul class="navbar-nav ml-auto">
+        <!--Guest items of navbar-->
+        <th:block th:fragment="guest-navbar-items">
         <li class="nav-item">
             <a class="nav-link" th:href="@{/login}">Войти</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" th:href="@{/registration}">Регистрация</a>
         </li>
-    </ul>
+        </th:block>
 
-    <!--User items of navbar-->
-    <ul class="navbar-nav ml-auto" th:fragment="user-navbar-items">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/perform_logout}">Выйти</a>
-        </li>
+        <!--User items of navbar-->
+        <th:block th:fragment="user-navbar-items">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Мои объявления</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Подать объявление</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Избранное</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                    Профиль
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Редактировать профиль</a>
+                    <a class="dropdown-item" href="#">Изменить пароль</a>
+                    <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
+                </div>
+            </li>
+        </th:block>
+
+        <!--Admin items of navbar-->
+        <th:block th:fragment="admin-navbar-items">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                    Профиль
+                </a>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="#">Редактировать профиль</a>
+                    <a class="dropdown-item" href="#">Изменить пароль</a>
+                    <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
+                </div>
+            </li>
+        </th:block>
     </ul>
 </body>
 </html>

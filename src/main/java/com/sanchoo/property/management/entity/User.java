@@ -46,6 +46,11 @@ public class User {
 	@NotBlank(message = "*Пожалуйста, укажите почту")
 	private String email;
 
+	@Column(name = "phone")
+	@NotBlank(message = "*Пожалуйста, введите свой номер")
+	@Pattern(regexp = "^\\+375\\((25|29|33|44)\\)\\d{3}\\-\\d{2}\\-\\d{2}$", message = "*Пожалуйста, используйте данный шаблон +375(XX)XXX-XX-XX")
+	private String phone;
+
 	@Column(name = "first_name")
 	@NotBlank(message = "*Пожалуйста, укажите своё имя")
 	@Pattern(regexp = "^[A-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно своё имя")

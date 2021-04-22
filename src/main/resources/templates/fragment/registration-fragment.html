@@ -48,6 +48,16 @@
                     </div>
                     <div class="form-row">
                         <div class="col-sm-3 form-group">
+                            <label>Телефон:</label>
+                            <input type="text" class="form-control" placeholder="+375(XX)XXXXXXX" th:field="*{phone}">
+                        </div>
+                        <div class="col-sm-4">
+                            <p th:each="error: ${#fields.errors('phone')}"
+                               th:text="${error}"></p>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-sm-3 form-group">
                             <label>Пароль:</label>
                             <input type="password" class="form-control" th:field="*{password}">
                         </div>

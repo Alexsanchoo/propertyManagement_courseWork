@@ -1,13 +1,10 @@
 package com.sanchoo.property.management.controller;
 
 
-import com.sanchoo.property.management.dto.UserDto;
 import com.sanchoo.property.management.entity.User;
-import com.sanchoo.property.management.exception.UserAlreadyExistException;
 import com.sanchoo.property.management.service.UserService;
+import com.sanchoo.property.management.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +19,9 @@ public class LoginController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private UserValidator userValidator;
 
 	@GetMapping(value = {"/", "/home"})
 	public ModelAndView home() {
@@ -38,26 +38,24 @@ public class LoginController {
 	@GetMapping(value = "/registration")
 	public ModelAndView registration() {
 		ModelAndView modelAndView = new ModelAndView("registration");
-		UserDto userDto = new UserDto();
-		modelAndView.addObject("user", userDto);
+		modelAndView.addObject("user", new User());
 		return modelAndView;
 	}
 
 	@PostMapping(value = "/registration")
-	public ModelAndView createNewUser(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult) {
+	public ModelAndView createNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView("registration");
+
+		this.userValidator.validate(user, bindingResult);
 
 		if (bindingResult.hasErrors()) {
 			return modelAndView;
 		}
 
-		try {
-			userService.saveUser(userDto);
-			modelAndView.addObject("successMessage", "User has been registered successfully");
-			modelAndView.addObject("user", new UserDto());
-		} catch (UserAlreadyExistException e) {
-			bindingResult.rejectValue("userName", "error.user", "There is already a user registered with the user name provided");
-		}
+
+		userService.saveUser(user);
+		modelAndView.addObject("successMessage", "Пользователь зарегистрирован успешно!");
+		modelAndView.addObject("user", new User());
 
 		return modelAndView;
 	}

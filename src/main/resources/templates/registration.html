@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/logo-link-fragment :: home-logo-link},
       ~{fragment/navbar-fragment :: home-navbar-items},
       ~{fragment/registration-fragment :: registration}
       )}">

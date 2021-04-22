@@ -19,7 +19,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 	@Autowired
-	@Qualifier("customUserDetailsService")
+	@Qualifier("userDetailsServiceImpl")
 	private UserDetailsService userDetailsService;
 
 	@Override

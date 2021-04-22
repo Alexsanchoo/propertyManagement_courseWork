@@ -1,8 +1,9 @@
-package com.sanchoo.property.management.service;
+package com.sanchoo.property.management.service.impl;
 
 
 import com.sanchoo.property.management.entity.Role;
 import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -18,7 +19,7 @@ import java.util.List;
 import java.util.Set;
 
 @Service
-public class CustomUserDetailsService implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	private UserService userService;

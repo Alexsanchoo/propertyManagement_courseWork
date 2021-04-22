@@ -62,9 +62,9 @@ public class LoginController {
 		return modelAndView;
 	}
 
-	@GetMapping(value = "/sign_in_home")
+	@GetMapping(value = "/user/home")
 	public ModelAndView signInHome() {
-		ModelAndView modelAndView = new ModelAndView("sign_in_home");
+		ModelAndView modelAndView = new ModelAndView("user/home");
 		return modelAndView;
 	}
 }

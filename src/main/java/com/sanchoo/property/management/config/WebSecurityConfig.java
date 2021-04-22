@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http
 				.csrf().disable()
 				.authorizeRequests()
-				.antMatchers("/sign_in_home/**").hasAnyRole("ADMIN", "USER")
+				.antMatchers("/user/home/**").hasAnyRole("ADMIN", "USER")
 				.anyRequest().permitAll()
 				.and()
 				.formLogin()
@@ -41,7 +41,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.loginPage("/")
 				.loginProcessingUrl("/perform_login")
 				.failureUrl("/login?error=true")
-				.defaultSuccessUrl("/sign_in_home")
+				.defaultSuccessUrl("/user/home")
 				.and()
 				.logout()
 				.logoutUrl("/perform_logout")

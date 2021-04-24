@@ -36,12 +36,8 @@ public class ProfileController {
 	}
 
 	@PostMapping("/edit/profile")
-	public ModelAndView editProfile(@ModelAttribute("user") @Valid UserDto userDto,
-									@ModelAttribute("password") String password,
-									@ModelAttribute("userName") String userName,
-									BindingResult bindingResult) {
+	public ModelAndView editProfile(@ModelAttribute("user") @Valid UserDto userDto, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView("edit/profile");
-		modelAndView.addObject("user", userDto);
 
 		if(bindingResult.hasErrors()) {
 			return modelAndView;

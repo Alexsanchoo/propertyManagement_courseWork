@@ -47,7 +47,6 @@
                                th:text="${error}"></p>
                         </div>
                     </div>
-                    <p th:each="error: ${#fields.errors('*')}" th:text="${error}"></p>
                     <button type="submit" class="btn btn-primary">Изменить</button>
                 </form>
                 <h4 th:text="${successMessage}"></h4>

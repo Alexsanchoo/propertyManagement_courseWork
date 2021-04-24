@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <main th:fragment="registration">
+    <main th:fragment="edit-profile">
+       <br><br>
         <section>
             <div class="container">
-                <form th:action="@{/registration}"
-                      th:object="${user}" method="post">
+                <form th:action="@{/edit/profile}" th:object="${user}" method="post">
+                    <input type="hidden" th:field="*{id}">
                     <div class="form-row">
                         <div class="col-sm-3 form-group">
                             <label>Имя:</label>
@@ -28,22 +29,12 @@
                     </div>
                     <div class="form-row">
                         <div class="col-sm-3 form-group">
-                            <label>Имя пользователя:</label>
-                            <input type="text" class="form-control" th:field="*{userName}">
-                        </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('userName')}"
-                                 th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
                             <label>E-mail:</label>
                             <input type="email" class="form-control" th:field="*{email}">
                         </div>
                         <div class="col-sm-4">
                             <p th:each="error: ${#fields.errors('email')}"
-                                 th:text="${error}"></p>
+                               th:text="${error}"></p>
                         </div>
                     </div>
                     <div class="form-row">
@@ -56,27 +47,8 @@
                                th:text="${error}"></p>
                         </div>
                     </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>Пароль:</label>
-                            <input type="password" class="form-control" th:field="*{password}">
-                        </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('password')}"
-                                 th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>Повторите пароль:</label>
-                            <input type="password" class="form-control" th:field="*{matchingPassword}">
-                        </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('matchingPassword')}"
-                                 th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Зарегистрироваться</button>
+                    <p th:each="error: ${#fields.errors('*')}" th:text="${error}"></p>
+                    <button type="submit" class="btn btn-primary">Изменить</button>
                 </form>
                 <h4 th:text="${successMessage}"></h4>
             </div>

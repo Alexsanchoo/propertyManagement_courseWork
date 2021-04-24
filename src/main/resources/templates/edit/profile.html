@@ -1,31 +1,21 @@
 <!DOCTYPE html>
 
-<!--Error page for guests-->
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.springframework.org/schema/security"
-      sec:authorize="!isAuthenticated()"
-      th:replace="~{layout/main-layout :: main-fragment(
-      ~{fragment/navbar-fragment :: guest-navbar-items},
-      ~{fragment/error-fragment :: error}
-      )}">
-</html>
-
-<!--Error page for user/moderator-->
+<!--Edit profile for user/moderator-->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/schema/security"
       sec:authorize="hasRole('USER')"
       th:replace="~{layout/main-layout :: main-fragment(
       ~{fragment/navbar-fragment :: user-moderator-navbar-items},
-      ~{fragment/error-fragment :: error}
+      ~{fragment/edit-profile-fragment :: edit-profile}
       )}">
 </html>
 
-<!--Error page for admin-->
+<!--Edit profile for admin-->
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/schema/security"
       sec:authorize="hasRole('ADMIN')"
       th:replace="~{layout/main-layout :: main-fragment(
       ~{fragment/navbar-fragment :: admin-navbar-items},
-      ~{fragment/error-fragment :: error}
+      ~{fragment/edit-profile-fragment :: edit-profile}
       )}">
 </html>

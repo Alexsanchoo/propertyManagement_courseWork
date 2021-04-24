@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.validation.Valid;
 
 @Controller
-public class LoginController {
+public class AccountController {
 
 	@Autowired
 	private UserService userService;
@@ -35,14 +35,14 @@ public class LoginController {
 		return modelAndView;
 	}
 
-	@GetMapping(value = "/registration")
+	@GetMapping("/registration")
 	public ModelAndView registration() {
 		ModelAndView modelAndView = new ModelAndView("registration");
 		modelAndView.addObject("user", new User());
 		return modelAndView;
 	}
 
-	@PostMapping(value = "/registration")
+	@PostMapping("/registration")
 	public ModelAndView createNewUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult) {
 		ModelAndView modelAndView = new ModelAndView("registration");
 
@@ -52,17 +52,10 @@ public class LoginController {
 			return modelAndView;
 		}
 
-
 		userService.saveUser(user);
 		modelAndView.addObject("successMessage", "Пользователь зарегистрирован успешно!");
 		modelAndView.addObject("user", new User());
 
 		return modelAndView;
 	}
-
-	/*@GetMapping(value = "/user/home")
-	public ModelAndView signInHome() {
-		ModelAndView modelAndView = new ModelAndView("user/home");
-		return modelAndView;
-	}*/
 }

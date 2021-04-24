@@ -37,4 +37,14 @@ public class UserServiceImpl implements UserService {
 		user.setRoles(new HashSet<>(List.of(role)));
 		return this.userRepository.save(user);
 	}
+
+	@Override
+	public User updateUser(User user) {
+		return this.userRepository.save(user);
+	}
+
+	@Override
+	public User getById(int id) {
+		return this.userRepository.getOne(id);
+	}
 }

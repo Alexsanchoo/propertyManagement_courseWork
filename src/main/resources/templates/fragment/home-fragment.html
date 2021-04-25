@@ -3,6 +3,12 @@
 <body>
 
 <main th:fragment="main-home">
+    <section class="container mt-3" th:if="${successMessage}">
+        <div class="alert alert-info">
+            <span th:text="${successMessage}"></span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+        </div>
+    </section>
     <br><br>
     <section>
         <div class="container">

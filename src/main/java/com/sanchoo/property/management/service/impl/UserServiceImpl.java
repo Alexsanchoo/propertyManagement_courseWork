@@ -3,6 +3,7 @@ package com.sanchoo.property.management.service.impl;
 
 import com.sanchoo.property.management.entity.Role;
 import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.exception.UserAlreadyExistsException;
 import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.repository.UserRepository;
 import com.sanchoo.property.management.service.UserService;
@@ -30,7 +31,13 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User saveUser(User user) {
+	public User saveUser(User user) throws UserAlreadyExistsException {
+		User userExists = this.userRepository.findByUserName(user.getUserName());
+
+		if(userExists != null) {
+			throw new UserAlreadyExistsException("Пользователь с таким именем уже существует!");
+		}
+
 		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setActive(true);
 		Role role = this.roleRepository.findByRole("ROLE_USER");

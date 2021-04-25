@@ -18,8 +18,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class RegistrationController {
-	private static final String ATTRIBUTE_NAME = "user";
-	private static final String BINDING_RESULT_NAME = "org.springframework.validation.BindingResult." + ATTRIBUTE_NAME;
+	public static final String ATTRIBUTE_NAME = "user";
+	public static final String BINDING_RESULT_NAME = "org.springframework.validation.BindingResult." + ATTRIBUTE_NAME;
 
 	@Autowired
 	private UserService userService;
@@ -35,7 +35,7 @@ public class RegistrationController {
 	@PostMapping("/registration")
 	public String createNewUser(@ModelAttribute @Validated({RegistrationInfo.class, BasicInfo.class}) User user,
 								BindingResult bindingResult,
-								RedirectAttributes attributes) {
+								RedirectAttributes redirectAttributes) {
 
 		if(!bindingResult.hasErrors()) {
 			try {
@@ -47,12 +47,12 @@ public class RegistrationController {
 
 
 		if (bindingResult.hasErrors()) {
-			attributes.addFlashAttribute(ATTRIBUTE_NAME, user);
-			attributes.addFlashAttribute(BINDING_RESULT_NAME, bindingResult);
+			redirectAttributes.addFlashAttribute(ATTRIBUTE_NAME, user);
+			redirectAttributes.addFlashAttribute(BINDING_RESULT_NAME, bindingResult);
 			return "redirect:/registration";
 		}
 
-		attributes.addFlashAttribute("successMessage", "Пользователь зарегистрирован успешно!");
+		redirectAttributes.addFlashAttribute("successMessage", "Пользователь зарегистрирован успешно!");
 		return "redirect:/";
 	}
 }

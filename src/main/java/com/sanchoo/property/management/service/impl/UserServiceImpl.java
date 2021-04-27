@@ -1,13 +1,18 @@
 package com.sanchoo.property.management.service.impl;
 
 
+import com.sanchoo.property.management.dto.PasswordDto;
 import com.sanchoo.property.management.entity.Role;
 import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.exception.IncorrectPasswordException;
+import com.sanchoo.property.management.exception.PasswordsNotMatchException;
 import com.sanchoo.property.management.exception.UserAlreadyExistsException;
 import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.repository.UserRepository;
 import com.sanchoo.property.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -53,5 +58,26 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public User getById(int id) {
 		return this.userRepository.getOne(id);
+	}
+
+	@Override
+	public void setNewPassword(PasswordDto passwordDto) throws PasswordsNotMatchException, IncorrectPasswordException {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = findUserByUserName(auth.getName());
+
+		boolean isPasswordEquals = this.bCryptPasswordEncoder.matches(
+				passwordDto.getOldPassword(),
+				user.getPassword());
+
+		if(!isPasswordEquals) {
+			throw new IncorrectPasswordException("Вы ввели неверный пароль!");
+		}
+
+		if(!passwordDto.getNewPassword().equals(passwordDto.getMatchingPassword())) {
+			throw new PasswordsNotMatchException("Пароли не совпадают!");
+		}
+
+		user.setPassword(bCryptPasswordEncoder.encode(passwordDto.getNewPassword()));
+		updateUser(user);
 	}
 }

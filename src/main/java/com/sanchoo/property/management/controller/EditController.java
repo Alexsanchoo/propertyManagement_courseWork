@@ -7,6 +7,7 @@ import com.sanchoo.property.management.exception.PasswordsNotMatchException;
 import com.sanchoo.property.management.service.UserService;
 import com.sanchoo.property.management.validator.group.BasicInfo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -17,11 +18,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.io.File;
+import java.io.IOException;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("/edit")
@@ -33,6 +39,8 @@ public class EditController {
 	public static final String ATTRIBUTE_PASSWORD_NAME = "passwordDto";
 	public static final String BINDING_RESULT_PASSWORD_NAME = "org.springframework.validation.BindingResult." + ATTRIBUTE_PASSWORD_NAME;
 
+	@Value("${upload.path}")
+	private String uploadPath;
 
 	@Autowired
 	private UserService userService;
@@ -51,14 +59,34 @@ public class EditController {
 	}
 
 	@PostMapping("/profile")
-	public String editProfile(@ModelAttribute @Validated(BasicInfo.class) User user,
+	public String editProfile(@RequestParam MultipartFile file,
+							  @ModelAttribute @Validated(BasicInfo.class) User user,
 							  BindingResult bindingResult,
 							  RedirectAttributes redirectAttributes,
-							  SessionStatus sessionStatus) {
+							  SessionStatus sessionStatus) throws IOException {
 
 		if (bindingResult.hasErrors()) {
 			redirectAttributes.addFlashAttribute(BINDING_RESULT_USER_NAME, bindingResult);
 			return "redirect:/edit/profile";
+		}
+
+		if(file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg")) {
+			File uploadDir = new File(uploadPath + "/user");
+
+			if(!uploadDir.exists()) {
+				uploadDir.mkdir();
+			}
+
+			String uuidFile = UUID.randomUUID().toString();
+			String resultFileName = uuidFile + "." + file.getOriginalFilename();
+			file.transferTo(new File(uploadPath + "/user/" + resultFileName));
+
+			if(!user.getFileName().equals("noname.png")) {
+				File oldFile = new File(uploadPath + "/user/" + user.getFileName());
+				oldFile.delete();
+			}
+
+			user.setFileName(resultFileName);
 		}
 
 		this.userService.updateUser(user);

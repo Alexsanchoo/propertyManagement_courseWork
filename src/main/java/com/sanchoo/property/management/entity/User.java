@@ -45,6 +45,9 @@ public class User {
 	@Transient
 	private String matchingPassword;
 
+	@Column(name = "file_name")
+	private String fileName;
+
 	@Column(name = "email")
 	@Email(message = "*Пожалуйста, укажите корректную почту", groups = BasicInfo.class)
 	@NotBlank(message = "*Пожалуйста, укажите почту", groups = BasicInfo.class)

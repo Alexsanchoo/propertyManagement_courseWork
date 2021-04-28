@@ -45,6 +45,7 @@ public class UserServiceImpl implements UserService {
 
 		user.setPassword(this.bCryptPasswordEncoder.encode(user.getPassword()));
 		user.setActive(true);
+		user.setFileName("noname.png");
 		Role role = this.roleRepository.findByRole("ROLE_USER");
 		user.setRoles(new HashSet<>(List.of(role)));
 		return this.userRepository.save(user);

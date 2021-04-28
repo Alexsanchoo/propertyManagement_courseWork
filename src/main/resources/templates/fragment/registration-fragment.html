@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
     <main th:fragment="registration">
-        <section>
+        <section class="my-3">
             <div class="container">
                 <form th:action="@{/registration}"
                       th:object="${user}" method="post">
@@ -11,8 +11,9 @@
                             <label>Имя:</label>
                             <input type="text" class="form-control" th:field="*{firstName}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('firstName')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('firstName')}"
                                th:text="${error}"></p>
                         </div>
                     </div>
@@ -21,8 +22,9 @@
                             <label>Фамилия:</label>
                             <input type="text" class="form-control" th:field="*{lastName}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('lastName')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('lastName')}"
                                th:text="${error}"></p>
                         </div>
                     </div>
@@ -31,8 +33,9 @@
                             <label>Имя пользователя:</label>
                             <input type="text" class="form-control" th:field="*{userName}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('userName')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('userName')}"
                                  th:text="${error}"></p>
                         </div>
                     </div>
@@ -41,8 +44,9 @@
                             <label>E-mail:</label>
                             <input type="text" class="form-control" th:field="*{email}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('email')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('email')}"
                                  th:text="${error}"></p>
                         </div>
                     </div>
@@ -51,8 +55,9 @@
                             <label>Телефон:</label>
                             <input type="text" class="form-control" placeholder="+375(XX)XXXXXXX" th:field="*{phone}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('phone')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('phone')}"
                                th:text="${error}"></p>
                         </div>
                     </div>
@@ -61,8 +66,9 @@
                             <label>Пароль:</label>
                             <input type="password" class="form-control" th:field="*{password}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('password')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('password')}"
                                  th:text="${error}"></p>
                         </div>
                     </div>
@@ -71,8 +77,9 @@
                             <label>Повторите пароль:</label>
                             <input type="password" class="form-control" th:field="*{matchingPassword}">
                         </div>
-                        <div class="col-sm-4">
-                            <p th:each="error: ${#fields.errors('global')}"
+                        <div class="col-sm-4 form-group">
+                            <label class="invisible">""</label>
+                            <p class="text-danger" th:each="error: ${#fields.errors('global')}"
                                  th:text="${error}"></p>
                         </div>
                     </div>

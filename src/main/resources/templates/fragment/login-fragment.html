@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <main th:fragment="login">
-    <article>
+    <section class="my-3">
         <div class="container">
             <form th:action="@{/perform_login}" method="post">
                 <div class="form-row">
@@ -18,15 +18,15 @@
                     </div>
                 </div>
                 <div class="form-row" th:if="${param.error}">
-                    <div class="col-sm-3 form-group">
-                       <p>Неверный логин или пароль!</p>
+                    <div class="col-sm-3">
+                       <p class="text-danger">Неверный логин или пароль!</p>
                     </div>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Войти</button>
             </form>
         </div>
-    </article>
+    </section>
 </main>
 </body>
 </html>

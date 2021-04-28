@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
+<html class="h-100" xmlns:th="http://www.thymeleaf.org"
       th:fragment="main-fragment(navBar, mainContext)">
 <head>
     <meta charset="UTF-8">
@@ -8,10 +8,10 @@
     <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
     <link rel="stylesheet" th:href="@{/css/main.css}">
 </head>
-<body>
+<body class="d-flex flex-column h-100">
 <header>
     <nav class="navbar navbar-expand-sm bg-light">
-        <a class="nav-link navbar-brand" th:href="@{/}" th:fragment="home-logo-link">Sanchoo</a>
+        <a class="nav-link navbar-brand" th:href="@{/}">Sanchoo</a>
         <ul th:replace="${navBar}"></ul>
     </nav>
 

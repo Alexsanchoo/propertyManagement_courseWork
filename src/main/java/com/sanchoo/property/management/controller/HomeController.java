@@ -12,4 +12,16 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView("home");
 		return modelAndView;
 	}
+
+	@GetMapping("/about")
+	public ModelAndView about() {
+		ModelAndView modelAndView = new ModelAndView("about");
+		return modelAndView;
+	}
+
+	@GetMapping("/services")
+	public ModelAndView services() {
+		ModelAndView modelAndView = new ModelAndView("services");
+		return modelAndView;
+	}
 }

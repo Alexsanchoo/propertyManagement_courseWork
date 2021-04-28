@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<main th:fragment="services">
+    <section class="my-3">
+        <div class="container">
+            <div class="card-deck">
+                <div class="card">
+                    <img class="card-img-top img-fluid" th:src="@{/images/sale.png}">
+                    <div class="card-body">
+                        <h4 class="card-title">Продажа</h4>
+                        <p class="card-text text-justify">
+                            Вы можете совершено бесплатно оставить объявление о продаже недвижимости.
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top img-fluid" th:src="@{/images/buy.png}">
+                    <div class="card-body">
+                        <h4 class="card-title">Покупка</h4>
+                        <p class="card-text text-justify">
+                            Платформа включает большой выбор покупки недвижимости по всей Беларуси.
+                            Вы можете подобрать себе недвижимость по параметрам.
+                        </p>
+                    </div>
+                </div>
+                <div class="card">
+                    <img class="card-img-top img-fluid" th:src="@{/images/rent.png}">
+                    <div class="card-body">
+                        <h4 class="card-title">Аренда</h4>
+                        <p class="card-text text-justify">
+                            Если вам нужно помещение для офиса или для других целей, то вы попали туда, куда нужно.
+                            Каждый день платформа пополняется новыми объявлениями о сдачи недвижимости в аренду.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

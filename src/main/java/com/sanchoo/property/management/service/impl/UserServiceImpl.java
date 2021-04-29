@@ -11,12 +11,17 @@ import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.repository.UserRepository;
 import com.sanchoo.property.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 
@@ -80,5 +85,63 @@ public class UserServiceImpl implements UserService {
 
 		user.setPassword(bCryptPasswordEncoder.encode(passwordDto.getNewPassword()));
 		updateUser(user);
+	}
+
+	@Override
+	public Page<User> findPaginatedAllUsers(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		List<User> users = this.userRepository.findByActive(true);
+		List<User> resultList;
+
+		if(users.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			resultList = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
+	}
+
+	@Override
+	public Page<User> findPaginatedModerators(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		Role role = this.roleRepository.findByRole("ROLE_MODERATOR");
+		List<User> users = this.userRepository.findByRolesContains(role);
+		List<User> resultList;
+
+		if(users.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			resultList = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
+	}
+
+	@Override
+	public Page<User> findPaginatedBlockedUsers(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		List<User> users = this.userRepository.findByActive(false);
+		List<User> resultList;
+
+		if(users.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			resultList = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
 	}
 }

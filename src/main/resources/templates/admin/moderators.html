@@ -1,0 +1,10 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: admin-navbar-items},
+      ~{layout/users-list-layout :: users-list(
+        ~{fragment/admin/moderators-fragment :: moderators},
+        ${'moderators'},
+        ~{fragment/admin/moderators-fragment :: buttons-moderators}
+        )}
+      )}">
+</html>

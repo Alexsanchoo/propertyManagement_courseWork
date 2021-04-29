@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="moderators">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/users}">Пользователи</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/admin/moderators}">Модераторы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/blocked-users}">Заблокированные пользователи</a>
+        </li>
+    </ul>
+</th:block>
+
+<div th:fragment="buttons-moderators">
+    <div>
+        <a class="btn btn-primary"
+           th:classappend="${#authentication.getName() == user.userName} ? disabled"
+           href="#">
+            Заблокировать
+        </a>
+        <br><br>
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    th:classappend="${#authentication.getName() == user.userName} ? disabled">
+                Сменить роль
+            </button>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="#">Пользователь</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item disabled" href="#">Модератор</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

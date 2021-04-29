@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="blocked-users">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/users}">Пользователи</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/moderators}">Модераторы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/admin/blocked-users}">Заблокированные пользователи</a>
+        </li>
+    </ul>
+</th:block>
+
+<div th:fragment="buttons-blocked-users">
+    <div>
+        <a class="btn btn-primary"
+           href="#">
+            Разблокировать
+        </a>
+    </div>
+</div>
+</body>
+</html>

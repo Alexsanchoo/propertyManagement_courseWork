@@ -60,12 +60,12 @@ public class User {
 
 	@Column(name = "first_name")
 	@NotBlank(message = "*Пожалуйста, укажите своё имя", groups = BasicInfo.class)
-	@Pattern(regexp = "^[A-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно своё имя", groups = BasicInfo.class)
+	@Pattern(regexp = "^[ЁёA-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно своё имя", groups = BasicInfo.class)
 	private String firstName;
 
 	@Column(name = "last_name")
 	@NotBlank(message = "*Пожалуйста, укажите свою фамилию", groups = BasicInfo.class)
-	@Pattern(regexp = "^[A-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно свою фамилию", groups = BasicInfo.class)
+	@Pattern(regexp = "^[ЁёA-Za-zА-Яа-я-]+$", message = "*Пожалуйста, введите корректно свою фамилию", groups = BasicInfo.class)
 	private String lastName;
 
 	@Column(name = "active")

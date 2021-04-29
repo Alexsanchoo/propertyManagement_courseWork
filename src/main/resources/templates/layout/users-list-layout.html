@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<main th:fragment="users-list(mainContext, tabName, buttons)">
+    <div class="container">
+        <section class="my-3">
+            <form>
+                <div class="form-row">
+                    <div class="offset-4 col-sm-3">
+                        <input type="text" class="form-control"/>
+                    </div>
+                    <div class="col-sm-1">
+                        <button type="submit" class="btn btn-primary">Поиск</button>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <section class="my-3">
+            <th:block th:insert="${mainContext}"></th:block>
+
+            <th:block th:each="user, iStat : ${userPage.content}">
+                <div class="d-flex p-1 mb-2 border-dark rounded">
+                    <div class="flex-fill m-1 p-1 rounded bg-light">
+                        <img th:src="@{/img/user/{fileName}(fileName=${user.fileName})}" class="img-fluid rounded"
+                             width="150" height="150"/>
+                    </div>
+                    <div class="flex-fill m-1 p-1 rounded bg-light">
+                        <p>Имя пользователя: <span th:text="${user.userName}"></span></p>
+                        <p>Имя Фамилия: <span th:text="${user.firstName + ' ' + user.lastName}"></span></p>
+                        <p>Почта: <span th:text="${user.email}"></span></p>
+                    </div>
+                    <div class="flex-fill m-1 p-1 rounded bg-light" th:replace="${buttons}">
+                    </div>
+                </div>
+            </th:block>
+
+            <nav class="my-3" th:if="${userPage.totalPages > 0}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${userPage.number == 0} ? disabled">
+                        <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${userPage.number})}" tabindex="-1">Предыдущая</a>
+                    </li>
+                    <th:block th:each="pageNumber : ${pageNumbers}">
+                        <li class="page-item" th:classappend="${pageNumber==userPage.number + 1} ? active">
+                            <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                        </li>
+                    </th:block>
+                     <li class="page-item" th:classappend="${userPage.number + 1 == userPage.totalPages} ? disabled">
+                         <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${userPage.number + 2})}" tabindex="-1">Следующая</a>
+                     </li>
+                </ul>
+            </nav>
+        </section>
+    </div>
+</main>
+</body>
+</html>

@@ -1,48 +1,64 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-    <th:block th:fragment="users">
-        <ul class="nav nav-tabs">
-            <li class="nav-item">
-                <a class="nav-link active" th:href="@{/admin/users}">Пользователи</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/moderators}">Модераторы</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/blocked-users}">Заблокированные пользователи</a>
-            </li>
-        </ul>
-    </th:block>
+<th:block th:fragment="users">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/admin/users}">Пользователи</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/moderators}">Модераторы</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/admin/blocked-users}">Заблокированные пользователи</a>
+        </li>
+    </ul>
+</th:block>
 
-    <div th:fragment="buttons-users">
-        <div>
-            <a class="btn btn-primary"
-               th:classappend="${#authentication.getName() == user.userName} ? disabled"
-               href="#">
+<div th:fragment="buttons-users">
+    <div>
+        <form th:action="@{/admin/block-user}" method="post">
+            <input type="hidden" th:value="${user.id}" name="id">
+            <input type="hidden" value="/admin/users" name="url">
+            <button type="submit" class="btn btn-primary"
+                    th:classappend="${#authentication.getName() == user.userName} ? disabled">
                 Заблокировать
-            </a>
-            <br><br>
-            <div class="btn-group">
-                <button class="btn btn-primary dropdown-toggle"
-                        type="button"
-                        data-toggle="dropdown"
-                        th:classappend="${#authentication.getName() == user.userName} ? disabled">
-                    Сменить роль
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#"
-                       th:classappend="${!user.roles.contains(@roleRepository.findByRole('ROLE_MODERATOR'))}? disabled">
+            </button>
+        </form>
+
+        <div class="btn-group">
+            <button class="btn btn-primary dropdown-toggle"
+                    type="button"
+                    data-toggle="dropdown"
+                    th:classappend="${#authentication.getName() == user.userName} ? disabled">
+                Сменить роль
+            </button>
+            <div class="dropdown-menu">
+                <form th:action="@{/admin/change-role}" method="post">
+                    <input type="hidden" th:value="${user.id}" name="id">
+                    <input type="hidden" value="/admin/users" name="url">
+                    <input type="hidden" value="ROLE_USER" name="roleName">
+                    <button class="dropdown-item"
+                            th:classappend="${!user.roles.contains(@roleRepository.findByRole('ROLE_MODERATOR'))}? disabled"
+                            type="submit">
                         Пользователь
-                    </a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item"
-                       href="#" th:classappend="${user.roles.contains(@roleRepository.findByRole('ROLE_MODERATOR'))}? disabled">
+                    </button>
+
+                </form>
+                <div class="dropdown-divider"></div>
+                <form th:action="@{/admin/change-role}" method="post">
+                    <input type="hidden" th:value="${user.id}" name="id">
+                    <input type="hidden" value="/admin/users" name="url">
+                    <input type="hidden" value="ROLE_MODERATOR" name="roleName">
+                    <button class="dropdown-item"
+                            th:classappend="${user.roles.contains(@roleRepository.findByRole('ROLE_MODERATOR'))}? disabled"
+                            type="submit">
                         Модератор
-                    </a>
-                </div>
+                    </button>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

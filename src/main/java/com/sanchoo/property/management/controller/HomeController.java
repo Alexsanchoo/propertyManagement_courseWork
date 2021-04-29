@@ -24,4 +24,10 @@ public class HomeController {
 		ModelAndView modelAndView = new ModelAndView("services");
 		return modelAndView;
 	}
+
+	@GetMapping("/expired")
+	public ModelAndView expiredError() {
+		ModelAndView modelAndView = new ModelAndView("expired-error");
+		return modelAndView;
+	}
 }

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -17,6 +18,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+	@Autowired
+	private SessionRegistry sessionRegistry;
 
 	@Autowired
 	@Qualifier("userDetailsServiceImpl")
@@ -51,7 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutUrl("/perform_logout")
 				.logoutSuccessUrl("/")
 				.and()
-				.exceptionHandling();
+				.exceptionHandling()
+				.and()
+				.sessionManagement()
+				.maximumSessions(1)
+				.expiredUrl("/expired")
+				.sessionRegistry(sessionRegistry);
 	}
 
 	@Override

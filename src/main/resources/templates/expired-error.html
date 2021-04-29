@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="!isAuthenticated()"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: guest-navbar-items},
+      ~{fragment/error-fragment :: expited-error}
+      )}">
+</html>

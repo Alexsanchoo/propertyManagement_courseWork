@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -31,7 +32,7 @@ public class AdminController {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Page<User> userPage = this.userService.findPaginatedAllUsers(PageRequest.of(currentPage -1, pageSize));
+		Page<User> userPage = this.userService.findPaginatedAllUsers(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("userPage", userPage);
 
@@ -53,7 +54,7 @@ public class AdminController {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Page<User> userPage = this.userService.findPaginatedModerators(PageRequest.of(currentPage -1, pageSize));
+		Page<User> userPage = this.userService.findPaginatedModerators(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("userPage", userPage);
 
@@ -70,12 +71,12 @@ public class AdminController {
 
 	@GetMapping("/blocked-users")
 	public String blockedUsers(Model model,
-							 @RequestParam("page") Optional<Integer> page,
-							 @RequestParam("size") Optional<Integer> size) {
+							   @RequestParam("page") Optional<Integer> page,
+							   @RequestParam("size") Optional<Integer> size) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Page<User> userPage = this.userService.findPaginatedBlockedUsers(PageRequest.of(currentPage -1, pageSize));
+		Page<User> userPage = this.userService.findPaginatedBlockedUsers(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("userPage", userPage);
 
@@ -88,5 +89,40 @@ public class AdminController {
 		}
 
 		return "admin/blocked-users";
+	}
+
+	@PostMapping("/block-user")
+	public String blockUser(@RequestParam int id,
+							@RequestParam String url) {
+		this.userService.blockUser(id);
+		return "redirect:" + url;
+	}
+
+	@PostMapping("/unblock-user")
+	public String unblockUser(@RequestParam int id,
+							  @RequestParam String url) {
+		this.userService.unblockUser(id);
+		return "redirect:" + url;
+	}
+
+	@PostMapping("/change-role")
+	public String changeRoleUser(@RequestParam int id,
+								 @RequestParam String url,
+								 @RequestParam String roleName) {
+
+		switch (roleName) {
+			case "ROLE_USER":
+				this.userService.changeRoleToUser(id);
+				break;
+
+			case "ROLE_MODERATOR":
+				this.userService.changeRoleToModerator(id);
+				break;
+
+			default:
+				throw new IllegalStateException("Unexpected value: " + roleName);
+		}
+
+		return "redirect:" + url;
 	}
 }

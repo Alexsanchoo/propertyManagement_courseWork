@@ -17,10 +17,13 @@
 
 <div th:fragment="buttons-blocked-users">
     <div>
-        <a class="btn btn-primary"
-           href="#">
-            Разблокировать
-        </a>
+        <form th:action="@{/admin/unblock-user}" method="post">
+            <input type="hidden" th:value="${user.id}" name="id">
+            <input type="hidden" value="/admin/blocked-users" name="url">
+            <button type="submit" class="btn btn-primary">
+                Разблокировать
+            </button>
+        </form>
     </div>
 </div>
 </body>

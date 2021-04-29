@@ -24,4 +24,12 @@ public interface UserService {
 	Page<User> findPaginatedModerators(Pageable pageable);
 
 	Page<User> findPaginatedBlockedUsers(Pageable pageable);
+
+	void blockUser(int id);
+
+	void unblockUser(int id);
+
+	void changeRoleToUser(int id);
+
+	void changeRoleToModerator(int id);
 }

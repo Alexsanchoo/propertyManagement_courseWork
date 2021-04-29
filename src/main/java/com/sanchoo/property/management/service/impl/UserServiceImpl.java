@@ -17,6 +17,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +27,7 @@ import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -34,6 +38,8 @@ public class UserServiceImpl implements UserService {
 	private RoleRepository roleRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private SessionRegistry sessionRegistry;
 
 	@Override
 	public User findUserByUserName(String userName) {
@@ -113,7 +119,7 @@ public class UserServiceImpl implements UserService {
 		int startItem = currentPage * pageSize;
 
 		Role role = this.roleRepository.findByRole("ROLE_MODERATOR");
-		List<User> users = this.userRepository.findByRolesContains(role);
+		List<User> users = this.userRepository.findByRolesContainsAndActive(role, true);
 		List<User> resultList;
 
 		if(users.size() < startItem) {
@@ -143,5 +149,44 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
+	}
+
+	@Override
+	public void blockUser(int id) {
+		Optional<User> userOptional = this.userRepository.findById(id);
+		userOptional.ifPresent(user -> {
+			user.setActive(false);
+			Optional<UserDetails> userDetailsOptional = this.sessionRegistry.getAllPrincipals().stream()
+					.filter(u -> !sessionRegistry.getAllSessions(u, false).isEmpty())
+					.map(u -> (UserDetails) u)
+					.filter(u -> u.getUsername().equals(user.getUserName()))
+					.findAny();
+
+			userDetailsOptional.ifPresent(userDetails -> {
+				List<SessionInformation> allSessions = this.sessionRegistry.getAllSessions(userDetails, false);
+				allSessions.forEach(SessionInformation::expireNow);
+			});
+		});
+
+	}
+
+	@Override
+	public void unblockUser(int id) {
+		Optional<User> userOptional = this.userRepository.findById(id);
+		userOptional.ifPresent(user -> user.setActive(true));
+	}
+
+	@Override
+	public void changeRoleToUser(int id) {
+		Optional<User> userOptional = this.userRepository.findById(id);
+		Role role = this.roleRepository.findByRole("ROLE_MODERATOR");
+		userOptional.ifPresent(user -> user.getRoles().remove(role));
+	}
+
+	@Override
+	public void changeRoleToModerator(int id) {
+		Optional<User> userOptional = this.userRepository.findById(id);
+		Role role = this.roleRepository.findByRole("ROLE_MODERATOR");
+		userOptional.ifPresent(user -> user.getRoles().add(role));
 	}
 }

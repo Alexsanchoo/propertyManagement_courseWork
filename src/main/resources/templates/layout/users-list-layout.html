@@ -4,10 +4,10 @@
 <main th:fragment="users-list(mainContext, tabName, buttons)">
     <div class="container">
         <section class="my-3">
-            <form>
+            <form th:action="@{/admin/{tabName}(tabName=${tabName})}" method="get">
                 <div class="form-row">
                     <div class="offset-4 col-sm-3">
-                        <input type="text" class="form-control"/>
+                        <input type="text" class="form-control" name="search"/>
                     </div>
                     <div class="col-sm-1">
                         <button type="submit" class="btn btn-primary">Поиск</button>
@@ -37,16 +37,16 @@
             <nav class="my-3" th:if="${userPage.totalPages > 0}">
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${userPage.number == 0} ? disabled">
-                        <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${userPage.number})}" tabindex="-1">Предыдущая</a>
+                        <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${userPage.number}, search=${search})}" tabindex="-1">Предыдущая</a>
                     </li>
                     <th:block th:each="pageNumber : ${pageNumbers}">
                         <li class="page-item" th:classappend="${pageNumber==userPage.number + 1} ? active">
-                            <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${pageNumber})}"
+                            <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${pageNumber}, search=${search})}"
                                th:text="${pageNumber}"></a>
                         </li>
                     </th:block>
                      <li class="page-item" th:classappend="${userPage.number + 1 == userPage.totalPages} ? disabled">
-                         <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${userPage.number + 2})}" tabindex="-1">Следующая</a>
+                         <a class="page-link" th:href="@{/admin/{tabName}(tabName=${tabName}, size=${userPage.size}, page=${userPage.number + 2}, search=${search})}" tabindex="-1">Следующая</a>
                      </li>
                 </ul>
             </nav>

@@ -113,6 +113,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Page<User> findPaginatedAllUsers(Pageable pageable, String search) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		List<User> users = this.userRepository.findByActive(true);
+		List<User> usersSearch = this.userRepository.findBySearch(search);
+		users.retainAll(usersSearch);
+
+		List<User> resultList;
+
+		if(users.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			resultList = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
+	}
+
+	@Override
 	public Page<User> findPaginatedModerators(Pageable pageable) {
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
@@ -133,12 +155,57 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public Page<User> findPaginatedModerators(Pageable pageable, String search) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		Role role = this.roleRepository.findByRole("ROLE_MODERATOR");
+		List<User> users = this.userRepository.findByRolesContainsAndActive(role, true);
+		List<User> usersSearch = this.userRepository.findBySearch(search);
+		users.retainAll(usersSearch);
+
+		List<User> resultList;
+
+		if(users.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			resultList = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
+	}
+
+	@Override
 	public Page<User> findPaginatedBlockedUsers(Pageable pageable) {
 		int pageSize = pageable.getPageSize();
 		int currentPage = pageable.getPageNumber();
 		int startItem = currentPage * pageSize;
 
 		List<User> users = this.userRepository.findByActive(false);
+		List<User> resultList;
+
+		if(users.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, users.size());
+			resultList = users.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), users.size());
+	}
+
+	@Override
+	public Page<User> findPaginatedBlockedUsers(Pageable pageable, String search) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		List<User> users = this.userRepository.findByActive(false);
+		List<User> usersSearch = this.userRepository.findBySearch(search);
+		users.retainAll(usersSearch);
+
 		List<User> resultList;
 
 		if(users.size() < startItem) {

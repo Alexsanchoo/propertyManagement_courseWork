@@ -21,9 +21,15 @@ public interface UserService {
 
 	Page<User> findPaginatedAllUsers(Pageable pageable);
 
+	Page<User> findPaginatedAllUsers(Pageable pageable, String search);
+
 	Page<User> findPaginatedModerators(Pageable pageable);
 
+	Page<User> findPaginatedModerators(Pageable pageable, String search);
+
 	Page<User> findPaginatedBlockedUsers(Pageable pageable);
+
+	Page<User> findPaginatedBlockedUsers(Pageable pageable, String search);
 
 	void blockUser(int id);
 

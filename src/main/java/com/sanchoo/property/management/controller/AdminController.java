@@ -26,13 +26,20 @@ public class AdminController {
 
 	@GetMapping("/users")
 	public String users(Model model,
+						@RequestParam("search") Optional<String> search,
 						@RequestParam("page") Optional<Integer> page,
 						@RequestParam("size") Optional<Integer> size) {
 
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Page<User> userPage = this.userService.findPaginatedAllUsers(PageRequest.of(currentPage - 1, pageSize));
+		Page<User> userPage;
+		if(search.isPresent()) {
+			userPage = this.userService.findPaginatedAllUsers(PageRequest.of(currentPage - 1, pageSize), search.get());
+			model.addAttribute("search", search.get());
+		} else {
+			userPage = this.userService.findPaginatedAllUsers(PageRequest.of(currentPage - 1, pageSize));
+		}
 
 		model.addAttribute("userPage", userPage);
 
@@ -49,12 +56,19 @@ public class AdminController {
 
 	@GetMapping("/moderators")
 	public String moderators(Model model,
+							 @RequestParam("search") Optional<String> search,
 							 @RequestParam("page") Optional<Integer> page,
 							 @RequestParam("size") Optional<Integer> size) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Page<User> userPage = this.userService.findPaginatedModerators(PageRequest.of(currentPage - 1, pageSize));
+		Page<User> userPage;
+		if(search.isPresent()) {
+			userPage = this.userService.findPaginatedModerators(PageRequest.of(currentPage - 1, pageSize), search.get());
+			model.addAttribute("search", search.get());
+		} else {
+			userPage = this.userService.findPaginatedModerators(PageRequest.of(currentPage - 1, pageSize));
+		}
 
 		model.addAttribute("userPage", userPage);
 
@@ -71,12 +85,19 @@ public class AdminController {
 
 	@GetMapping("/blocked-users")
 	public String blockedUsers(Model model,
+							   @RequestParam("search") Optional<String> search,
 							   @RequestParam("page") Optional<Integer> page,
 							   @RequestParam("size") Optional<Integer> size) {
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(5);
 
-		Page<User> userPage = this.userService.findPaginatedBlockedUsers(PageRequest.of(currentPage - 1, pageSize));
+		Page<User> userPage;
+		if(search.isPresent()) {
+			userPage = this.userService.findPaginatedBlockedUsers(PageRequest.of(currentPage - 1, pageSize), search.get());
+			model.addAttribute("search", search.get());
+		} else {
+			userPage = this.userService.findPaginatedBlockedUsers(PageRequest.of(currentPage - 1, pageSize));
+		}
 
 		model.addAttribute("userPage", userPage);
 

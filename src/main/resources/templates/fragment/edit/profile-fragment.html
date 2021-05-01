@@ -6,58 +6,64 @@
             <div class="container">
                 <form th:action="@{/edit/profile}" th:object="${user}" enctype="multipart/form-data" method="post">
                     <div class="form-row">
-                        <div class="col-sm-3">
-                            <img th:src="@{/img/user/{fileName}(fileName=*{fileName})}" class="img-fluid rounded" width="300" height="300" />
+                        <div class="col-sm-7">
+                            <div class="form-row">
+                                <div class="col-sm-6 form-group">
+                                    <label>Имя:</label>
+                                    <input type="text" class="form-control" th:field="*{firstName}">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="invisible">""</label>
+                                    <p class="text-danger" th:each="error: ${#fields.errors('firstName')}"
+                                       th:text="${error}"></p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6 form-group">
+                                    <label>Фамилия:</label>
+                                    <input type="text" class="form-control" th:field="*{lastName}">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="invisible">""</label>
+                                    <p class="text-danger" th:each="error: ${#fields.errors('lastName')}"
+                                       th:text="${error}"></p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6 form-group">
+                                    <label>E-mail:</label>
+                                    <input type="text" class="form-control" th:field="*{email}">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="invisible">""</label>
+                                    <p class="text-danger" th:each="error: ${#fields.errors('email')}"
+                                       th:text="${error}"></p>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-6 form-group">
+                                    <label>Телефон:</label>
+                                    <input type="text" class="form-control" placeholder="+375(XX)XXXXXXX" th:field="*{phone}">
+                                </div>
+                                <div class="col-sm-6 form-group">
+                                    <label class="invisible">""</label>
+                                    <p class="text-danger" th:each="error: ${#fields.errors('phone')}"
+                                       th:text="${error}"></p>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>Изменить аватарку:</label>
-                            <input type="file" class="form-control-file" name="file" accept="image/jpeg,image/png">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>Имя:</label>
-                            <input type="text" class="form-control" th:field="*{firstName}">
-                        </div>
-                        <div class="col-sm-4 form-group">
-                            <label class="invisible">""</label>
-                            <p class="text-danger" th:each="error: ${#fields.errors('firstName')}"
-                               th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>Фамилия:</label>
-                            <input type="text" class="form-control" th:field="*{lastName}">
-                        </div>
-                        <div class="col-sm-4 form-group">
-                            <label class="invisible">""</label>
-                            <p class="text-danger" th:each="error: ${#fields.errors('lastName')}"
-                               th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>E-mail:</label>
-                            <input type="text" class="form-control" th:field="*{email}">
-                        </div>
-                        <div class="col-sm-4 form-group">
-                            <label class="invisible">""</label>
-                            <p class="text-danger" th:each="error: ${#fields.errors('email')}"
-                               th:text="${error}"></p>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-sm-3 form-group">
-                            <label>Телефон:</label>
-                            <input type="text" class="form-control" placeholder="+375(XX)XXXXXXX" th:field="*{phone}">
-                        </div>
-                        <div class="col-sm-4 form-group">
-                            <label class="invisible">""</label>
-                            <p class="text-danger" th:each="error: ${#fields.errors('phone')}"
-                               th:text="${error}"></p>
+                        <div class="col-sm-5">
+                            <div class="form-row">
+                                <div class="col-sm-12">
+                                    <img th:src="@{/img/user/{fileName}(fileName=*{fileName})}" class="img-fluid rounded" width="300" height="300" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="col-sm-12 form-group">
+                                    <label>Изменить аватарку:</label>
+                                    <input type="file" class="form-control-file" name="file" accept="image/jpeg,image/png">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">Изменить</button>

@@ -19,17 +19,17 @@
             <th:block th:insert="${mainContext}"></th:block>
 
             <th:block th:each="user, iStat : ${userPage.content}">
-                <div class="d-flex p-1 mb-2 border-dark rounded">
-                    <div class="flex-fill m-1 p-1 rounded bg-light">
+                <div class="row p-1 mb-2 rounded">
+                    <div class="col-sm-4 m-1 p-1 rounded bg-light">
                         <img th:src="@{/img/user/{fileName}(fileName=${user.fileName})}" class="img-fluid rounded"
                              width="150" height="150"/>
                     </div>
-                    <div class="flex-fill m-1 p-1 rounded bg-light">
+                    <div class="col-sm-4 m-1 p-1 rounded bg-light">
                         <p>Имя пользователя: <span th:text="${user.userName}"></span></p>
                         <p>Имя Фамилия: <span th:text="${user.firstName + ' ' + user.lastName}"></span></p>
                         <p>Почта: <span th:text="${user.email}"></span></p>
                     </div>
-                    <div class="flex-fill m-1 p-1 rounded bg-light" th:replace="${buttons}">
+                    <div class="col-sm-4 m-1 p-1 bg-light rounded" th:replace="${buttons}">
                     </div>
                 </div>
             </th:block>

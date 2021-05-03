@@ -1,4 +1,4 @@
-package com.sanchoo.property.management.entity;
+package com.sanchoo.property.management.entity.user;
 
 import com.sanchoo.property.management.validator.PasswordMatches;
 import com.sanchoo.property.management.validator.group.BasicInfo;

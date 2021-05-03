@@ -1,6 +1,6 @@
 package com.sanchoo.property.management.controller;
 
-import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;

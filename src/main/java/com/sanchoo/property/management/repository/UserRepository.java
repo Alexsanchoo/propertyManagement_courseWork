@@ -1,8 +1,8 @@
 package com.sanchoo.property.management.repository;
 
 
-import com.sanchoo.property.management.entity.Role;
-import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.entity.user.Role;
+import com.sanchoo.property.management.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

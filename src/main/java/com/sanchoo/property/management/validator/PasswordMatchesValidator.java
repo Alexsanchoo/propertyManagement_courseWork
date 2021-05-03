@@ -1,6 +1,6 @@
 package com.sanchoo.property.management.validator;
 
-import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.entity.user.User;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

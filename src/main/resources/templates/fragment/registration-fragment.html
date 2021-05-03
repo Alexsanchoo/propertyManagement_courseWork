@@ -9,7 +9,7 @@
                     <div class="form-row">
                         <div class="col-sm-3 form-group">
                             <label>Имя:</label>
-                            <input type="text" class="form-control" th:field="*{firstName}">
+                            <input type="text" class="form-control" th:field="*{firstName}" th:classappend="${#fields.errors('firstName')}? ">
                         </div>
                         <div class="col-sm-4 form-group">
                             <label class="invisible">""</label>

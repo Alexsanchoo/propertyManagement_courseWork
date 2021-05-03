@@ -1,8 +1,8 @@
 package com.sanchoo.property.management.service.impl;
 
 
-import com.sanchoo.property.management.entity.Role;
-import com.sanchoo.property.management.entity.User;
+import com.sanchoo.property.management.entity.user.Role;
+import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

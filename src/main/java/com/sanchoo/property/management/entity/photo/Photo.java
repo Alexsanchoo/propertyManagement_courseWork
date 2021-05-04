@@ -1,4 +1,4 @@
-package com.sanchoo.property.management.entity.property;
+package com.sanchoo.property.management.entity.photo;
 
 import lombok.Data;
 
@@ -11,13 +11,13 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name = "property_photo")
-public class PropertyPhoto {
+@Table(name = "photo")
+public class Photo {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "property_photo_id")
+	@Column(name = "photo_id")
 	private int id;
 
-	@Column(name = "photo_name")
-	private String photoName;
+	@Column(name = "name")
+	private String name;
 }

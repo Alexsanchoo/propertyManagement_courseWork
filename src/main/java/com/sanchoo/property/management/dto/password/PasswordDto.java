@@ -1,4 +1,4 @@
-package com.sanchoo.property.management.dto;
+package com.sanchoo.property.management.dto.password;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;

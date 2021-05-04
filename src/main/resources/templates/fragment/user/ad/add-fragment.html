@@ -4,17 +4,17 @@
 <main th:fragment="add-ad">
     <section class="my-3">
         <div class="container">
-            <form th:action="@{/user/ad/add}" enctype="multipart/form-data" th:object="${property}" method="post">
+            <form th:action="@{/user/ad/add}" enctype="multipart/form-data" th:object="${propertyDto}" method="post">
 
-                <h3>1. Загрузить фотографии (максимум 10)</h3>
+                <h3>1. Загрузить фотографии (от 1 до 10 включительно)</h3>
                 <div class="form-row my-3">
                     <div class="col-sm-6">
                         <input type="file" class="form-control-file" multiple name="files" accept="image/jpeg,image/png">
                     </div>
                 </div>
-                <div class="form-row" th:if="${#fields.hasErrors('propertyPhotos')}">
+                <div class="form-row" th:if="${#fields.hasErrors('photos')}">
                     <div class="col-sm-6">
-                        <p class="text-danger" th:each="error: ${#fields.errors('propertyPhotos')}"
+                        <p class="text-danger" th:each="error: ${#fields.errors('photos')}"
                            th:text="${error}"></p>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
                 <h3>2. Выберите услугу</h3>
                 <div class="form-row my-3">
                     <div class="col-sm-6">
-                        <select class="form-control" th:value="${serviceTypeId}" name="serviceTypeId">
+                        <select class="form-control" th:field="*{serviceTypeId}">
                                 <option th:each="serviceType : ${serviceTypes}"
                                         th:value="${serviceType.id}"
                                         th:text="${serviceType.name}"
@@ -36,7 +36,7 @@
                     <div class="form-row">
                         <div class="col-sm-5 form-group">
                             <label>Тип недвижимости:</label>
-                            <select class="form-control" th:value="${propertyTypeId}" name="propertyTypeId">
+                            <select class="form-control" th:field="*{propertyTypeId}">
                                 <option th:each="propertyType : ${propertyTypes}"
                                         th:value="${propertyType.id}"
                                         th:text="${propertyType.name}"
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="offset-2 col-sm-5 form-group">
                                     <label>Метраж:</label>
-                                    <input type="number" step="0.01" class="form-control" th:field="*{area}">
+                                    <input type="number" step="any" class="form-control" th:field="*{area}">
                                 </div>
                             </div>
                             <div class="form-row" th:if="${#fields.hasErrors('roomNumber') || #fields.hasErrors('area')}">
@@ -124,13 +124,15 @@
                                     <input type="number" class="form-control" th:field="*{floorsNumber}">
                                 </div>
                             </div>
-                            <div class="form-row" th:if="${#fields.hasErrors('houseNumber') || #fields.hasErrors('floor') || #fields.hasErrors('floorsNumber')}">
+                            <div class="form-row" th:if="${#fields.hasErrors('houseNumber') || #fields.hasErrors('floor') || #fields.hasErrors('floorsNumber') || #fields.hasErrors('global')}">
                                 <div class="col-sm-12">
                                     <p class="text-danger" th:each="error: ${#fields.errors('houseNumber')}"
                                        th:text="${error}"></p>
                                     <p class="text-danger" th:each="error: ${#fields.errors('floor')}"
                                        th:text="${error}"></p>
                                     <p class="text-danger" th:each="error: ${#fields.errors('floorsNumber')}"
+                                       th:text="${error}"></p>
+                                    <p class="text-danger" th:each="error: ${#fields.errors('global')}"
                                        th:text="${error}"></p>
                                 </div>
                             </div>
@@ -139,7 +141,7 @@
                             <div class="form-row">
                                 <div class="col-sm-12 form-group">
                                     <label>Стоимость:</label>
-                                    <input type="number" step="0.01" class="form-control" name="priceDouble" th:value="${priceDouble}">
+                                    <input type="number" step="any" class="form-control" th:field="*{price}">
                                 </div>
                             </div>
                             <div class="form-row" th:if="${#fields.hasErrors('price')}">
@@ -164,13 +166,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!--Потом убрать этот блок div-->
-                <div>
-                    <p class="text-danger" th:each="error: ${#fields.errors('global')}"
-                       th:text="${error}"></p>
-                </div>
-                <!--Потом убрать этот блок div-->
 
                 <button type="submit" class="btn btn-primary">Отправить на проверку</button>
             </form>

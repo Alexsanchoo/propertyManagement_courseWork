@@ -1,7 +1,7 @@
 package com.sanchoo.property.management.service.impl;
 
 
-import com.sanchoo.property.management.dto.PasswordDto;
+import com.sanchoo.property.management.dto.password.PasswordDto;
 import com.sanchoo.property.management.entity.user.Role;
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.exception.IncorrectPasswordException;

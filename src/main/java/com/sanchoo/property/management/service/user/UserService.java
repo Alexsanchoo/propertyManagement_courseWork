@@ -1,4 +1,4 @@
-package com.sanchoo.property.management.service;
+package com.sanchoo.property.management.service.user;
 
 import com.sanchoo.property.management.dto.password.PasswordDto;
 import com.sanchoo.property.management.entity.user.User;

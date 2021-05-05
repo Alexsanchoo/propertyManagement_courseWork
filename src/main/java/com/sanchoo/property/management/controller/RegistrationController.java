@@ -3,7 +3,7 @@ package com.sanchoo.property.management.controller;
 
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.exception.UserAlreadyExistsException;
-import com.sanchoo.property.management.service.UserService;
+import com.sanchoo.property.management.service.user.UserService;
 import com.sanchoo.property.management.validator.group.BasicInfo;
 import com.sanchoo.property.management.validator.group.RegistrationInfo;
 import org.springframework.beans.factory.annotation.Autowired;

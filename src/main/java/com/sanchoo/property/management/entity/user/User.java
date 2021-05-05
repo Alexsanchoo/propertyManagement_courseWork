@@ -1,11 +1,13 @@
 package com.sanchoo.property.management.entity.user;
 
-import com.sanchoo.property.management.validator.password.PasswordMatches;
+import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.validator.group.BasicInfo;
 import com.sanchoo.property.management.validator.group.RegistrationInfo;
+import com.sanchoo.property.management.validator.password.PasswordMatches;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,11 +16,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -74,4 +78,8 @@ public class User {
 	@ManyToMany
 	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
 	private Set<Role> roles;
+
+	@OneToMany(cascade = CascadeType.ALL,
+			mappedBy = "user")
+	private List<Property> properties;
 }

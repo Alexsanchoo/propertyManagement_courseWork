@@ -1,4 +1,4 @@
-package com.sanchoo.property.management.service.impl;
+package com.sanchoo.property.management.service.user.impl;
 
 
 import com.sanchoo.property.management.dto.password.PasswordDto;
@@ -9,7 +9,7 @@ import com.sanchoo.property.management.exception.PasswordsNotMatchException;
 import com.sanchoo.property.management.exception.UserAlreadyExistsException;
 import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.repository.UserRepository;
-import com.sanchoo.property.management.service.UserService;
+import com.sanchoo.property.management.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

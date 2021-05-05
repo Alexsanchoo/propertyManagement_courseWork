@@ -1,7 +1,7 @@
 package com.sanchoo.property.management.dto.property;
 
 import com.sanchoo.property.management.entity.photo.Photo;
-import com.sanchoo.property.management.entity.property.PropertyStatus;
+import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.validator.floor.CorrectFloor;
 import lombok.Data;
 
@@ -18,6 +18,8 @@ public class PropertyDto {
 	private int propertyTypeId;
 
 	private List<Photo> photos;
+
+	private User user;
 
 	@NotBlank(message = "*Пожалуйста, введите название города")
 	@Pattern(regexp = "^[A-Za-zА-Яа-я\\ \\-\\.]+$", message = "*Пожалуйста, используйте только A-Z, А-Я, пробел, \"-\" и \".\"")
@@ -52,6 +54,4 @@ public class PropertyDto {
 
 	@Size(min = 5, max = 100, message = "*Описание должно содержать от 5 до 100 символов включительно")
 	private String description;
-
-	private PropertyStatus status;
 }

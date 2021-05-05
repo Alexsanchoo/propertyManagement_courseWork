@@ -1,0 +1,9 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: user-moderator-navbar-items},
+      ~{layout/ads-list-layout :: ad-list(
+        ~{fragment/user/ad-fragment :: active-tabs},
+        ${'active-ads'}
+        )}
+      )}">
+</html>

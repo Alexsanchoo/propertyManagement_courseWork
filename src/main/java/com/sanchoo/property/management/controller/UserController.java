@@ -3,13 +3,12 @@ package com.sanchoo.property.management.controller;
 import com.sanchoo.property.management.dto.property.PropertyDto;
 import com.sanchoo.property.management.entity.photo.Photo;
 import com.sanchoo.property.management.entity.property.Property;
-import com.sanchoo.property.management.entity.property.PropertyStatus;
 import com.sanchoo.property.management.entity.property.PropertyType;
 import com.sanchoo.property.management.entity.property.ServiceType;
 import com.sanchoo.property.management.mapper.PropertyMapper;
-import com.sanchoo.property.management.repository.PropertyRepository;
 import com.sanchoo.property.management.repository.PropertyTypeRepository;
 import com.sanchoo.property.management.repository.ServiceTypeRepository;
+import com.sanchoo.property.management.service.property.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -46,10 +45,25 @@ public class UserController {
 	private ServiceTypeRepository serviceTypeRepository;
 
 	@Autowired
-	private PropertyRepository propertyRepository;
+	private PropertyService propertyService;
 
 	@Autowired
 	private PropertyMapper propertyMapper;
+
+	@GetMapping("/active-ads")
+	public String showActiveAds() {
+		return "user/active-ads";
+	}
+
+	@GetMapping("/in-review-ads")
+	public String showInReviewAds() {
+		return "user/in-review-ads";
+	}
+
+	@GetMapping("/not-active-ads")
+	public String showNotActiveAds() {
+		return "user/not-active-ads";
+	}
 
 	@GetMapping("/ad/add")
 	public String addAd(Model model) {
@@ -84,12 +98,9 @@ public class UserController {
 
 		List<Photo> photoList = savePhotos(files);
 		propertyDto.setPhotos(photoList);
-		propertyDto.setStatus(PropertyStatus.IN_WAITING);
 
 		Property property = this.propertyMapper.propertyDtoToProperty(propertyDto);
-
-		System.out.println(property);
-		this.propertyRepository.save(property);
+		this.propertyService.save(property);
 
 		redirectAttributes.addFlashAttribute("successMessage", "Ваше объявление подано на проверку!");
 

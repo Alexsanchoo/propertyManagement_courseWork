@@ -1,6 +1,7 @@
 package com.sanchoo.property.management.entity.property;
 
 import com.sanchoo.property.management.entity.photo.Photo;
+import com.sanchoo.property.management.entity.user.User;
 import lombok.Data;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -27,6 +29,10 @@ public class Property {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "property_id")
 	private int id;
+
+	@ManyToOne
+	@JoinColumn(name = "user_id")
+	private User user;
 
 	@OneToOne
 	@JoinColumn(name = "service_type_id")

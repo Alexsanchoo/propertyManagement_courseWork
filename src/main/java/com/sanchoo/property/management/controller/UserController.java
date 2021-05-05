@@ -11,6 +11,8 @@ import com.sanchoo.property.management.repository.ServiceTypeRepository;
 import com.sanchoo.property.management.service.property.PropertyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,7 +29,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/user")
@@ -51,17 +56,71 @@ public class UserController {
 	private PropertyMapper propertyMapper;
 
 	@GetMapping("/active-ads")
-	public String showActiveAds() {
+	public String showActiveAds(Model model,
+								@RequestParam("page") Optional<Integer> page,
+								@RequestParam("size") Optional<Integer> size) {
+
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(6);
+
+		Page<Property> propertyPage = this.propertyService.findPaginatedActiveAds(PageRequest.of(currentPage - 1, pageSize));
+
+		model.addAttribute("propertyPage", propertyPage);
+
+		int totalPages = propertyPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
 		return "user/active-ads";
 	}
 
 	@GetMapping("/in-review-ads")
-	public String showInReviewAds() {
+	public String showInReviewAds(Model model,
+								  @RequestParam("page") Optional<Integer> page,
+								  @RequestParam("size") Optional<Integer> size) {
+
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(6);
+
+		Page<Property> propertyPage = this.propertyService.findPaginatedInWaitingAds(PageRequest.of(currentPage - 1, pageSize));
+
+		model.addAttribute("propertyPage", propertyPage);
+
+		int totalPages = propertyPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
 		return "user/in-review-ads";
 	}
 
 	@GetMapping("/not-active-ads")
-	public String showNotActiveAds() {
+	public String showNotActiveAds(Model model,
+								   @RequestParam("page") Optional<Integer> page,
+								   @RequestParam("size") Optional<Integer> size) {
+
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(6);
+
+		Page<Property> propertyPage = this.propertyService.findPaginatedNotActiveAds(PageRequest.of(currentPage - 1, pageSize));
+
+		model.addAttribute("propertyPage", propertyPage);
+
+		int totalPages = propertyPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
 		return "user/not-active-ads";
 	}
 

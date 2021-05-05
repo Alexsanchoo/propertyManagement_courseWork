@@ -2,3 +2,7 @@
     display: block;
     margin-top: 0;
 }
+
+.embed-responsive .card-img-top {
+    object-fit: cover;
+}

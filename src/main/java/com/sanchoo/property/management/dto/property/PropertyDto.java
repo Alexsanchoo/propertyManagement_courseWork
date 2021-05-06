@@ -37,13 +37,13 @@ public class PropertyDto {
 	@Pattern(regexp = "^[0-9A-Za-zА-Яа-я\\-]+$", message = "*Пожалуйста, используйте только 0-9, A-Z, А-Я и \"-\" для номера дома")
 	private String houseNumber;
 
-	@Min(value = 1, message = "*Номер этажа не может быть отрицательным или равен 0")
+	@Min(value = 0, message = "*Номер этажа не может быть отрицательным")
 	private int floor;
 
-	@Min(value = 1, message = "*Количество этажей не может быть отрицательным или равно 0")
+	@Min(value = 0, message = "*Количество этажей не может быть отрицательным")
 	private int floorsNumber;
 
-	@Min(value = 1, message = "*Количество комнат не может быть отрицательным или равно 0")
+	@Min(value = 0, message = "*Количество комнат не может быть отрицательным")
 	private int roomNumber;
 
 	@Min(value = 1, message = "*Метраж не может быть отрицательным или равен 0")

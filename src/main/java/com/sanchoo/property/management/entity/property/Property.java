@@ -67,15 +67,15 @@ public class Property {
 	private String houseNumber;
 
 	@Column(name = "floor")
-	@Min(value = 1, message = "*Номер этажа не может быть отрицательным или равен 0")
+	@Min(value = 0, message = "*Номер этажа не может быть отрицательным")
 	private int floor;
 
 	@Column(name = "floors_number")
-	@Min(value = 1, message = "*Количество этажей не может быть отрицательным или равно 0")
+	@Min(value = 0, message = "*Количество этажей не может быть отрицательным")
 	private int floorsNumber;
 
 	@Column(name = "room_number")
-	@Min(value = 1, message = "*Количество комнат не может быть отрицательным или равно 0")
+	@Min(value = 0, message = "*Количество комнат не может быть отрицательным")
 	private int roomNumber;
 
 	@Column(name = "area")

@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -104,5 +105,10 @@ public class PropertyServiceImpl implements PropertyService {
 		}
 
 		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), properties.size());
+	}
+
+	@Override
+	public Optional<Property> findById(int id) {
+		return this.propertyRepository.findById(id);
 	}
 }

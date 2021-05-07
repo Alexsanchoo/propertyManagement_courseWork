@@ -6,9 +6,9 @@ import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyType;
 import com.sanchoo.property.management.entity.property.ServiceType;
 import com.sanchoo.property.management.mapper.PropertyMapper;
-import com.sanchoo.property.management.repository.PropertyTypeRepository;
-import com.sanchoo.property.management.repository.ServiceTypeRepository;
 import com.sanchoo.property.management.service.property.PropertyService;
+import com.sanchoo.property.management.service.property.PropertyTypeService;
+import com.sanchoo.property.management.service.property.ServiceTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -44,10 +44,10 @@ public class UserController {
 	private String uploadPath;
 
 	@Autowired
-	private PropertyTypeRepository propertyTypeRepository;
+	private PropertyTypeService propertyTypeService;
 
 	@Autowired
-	private ServiceTypeRepository serviceTypeRepository;
+	private ServiceTypeService serviceTypeService;
 
 	@Autowired
 	private PropertyService propertyService;
@@ -126,14 +126,15 @@ public class UserController {
 
 	@GetMapping("/ad/add")
 	public String addAd(Model model) {
-		List<ServiceType> serviceTypes = this.serviceTypeRepository.findAll();
-		List<PropertyType> propertyTypes = this.propertyTypeRepository.findAll();
+		List<ServiceType> serviceTypes = this.serviceTypeService.findAll();
+		List<PropertyType> propertyTypes = this.propertyTypeService.findAll();
 
 		model.addAttribute("serviceTypes", serviceTypes);
 		model.addAttribute("propertyTypes", propertyTypes);
 
 		if(!model.containsAttribute(BINDING_RESULT_NAME)) {
 			PropertyDto propertyDto = new PropertyDto();
+			propertyDto.setHouseNumber("0");
 			model.addAttribute(ATTRIBUTE_NAME, propertyDto);
 		}
 		return "user/ad/add";

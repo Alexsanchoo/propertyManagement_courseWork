@@ -2,7 +2,8 @@
       th:replace="~{layout/main-layout :: main-fragment(
       ~{fragment/navbar-fragment :: user-moderator-navbar-items},
       ~{layout/ads-list-layout :: ad-list(
-        ~{fragment/user/ad-fragment :: in-review-tabs},
+        ~{fragment/user/in-review-ads-fragment :: in-review-tabs},
+        ~{fragment/user/in-review-ads-fragment :: buttons},
         ${'in-review-ads'}
         )}
       )}">

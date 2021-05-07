@@ -1,0 +1,20 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="hasRole('USER')"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: user-moderator-navbar-items},
+      ~{fragment/ad/ad-fragment :: ad}
+      )}">
+</html>
+
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="!isAuthenticated()"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: guest-navbar-items},
+      ~{fragment/ad/ad-fragment :: ad}
+      )}">
+</html>
+
+
+<!--добавить для админа-->

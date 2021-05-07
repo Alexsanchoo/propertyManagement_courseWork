@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Optional;
 
 @Mapper(componentModel = "spring")
-abstract public class PropertyMapper {
+public abstract class PropertyMapper {
 
 	@Autowired
 	private ServiceTypeRepository serviceTypeRepository;

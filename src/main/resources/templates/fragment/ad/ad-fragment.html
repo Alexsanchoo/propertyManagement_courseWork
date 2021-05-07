@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<main th:fragment="ad">
+    <section class="my-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 p-2">
+                    <div id="img-property-carousel" class="carousel slide border" data-ride="carousel">
+                        <div class="carousel-inner embed-responsive embed-responsive-1by1">
+                            <th:block th:each="photo, iStat : ${property.photos}">
+                                <div class="carousel-item embed-responsive-item"
+                                     th:classappend="${iStat.index == 0} ? active">
+                                    <img class="d-block w-100 h-100"
+                                         th:src="@{/img/property/{fileName}(fileName=${photo.name})}">
+                                </div>
+                            </th:block>
+                        </div>
+                        <!-- Controls -->
+                        <a class="carousel-control-prev" href="#img-property-carousel" data-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#img-property-carousel" data-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="col-sm-6 p-2">
+                    <h4>ОСНОВНАЯ ИНФОРМАЦИЯ</h4>
+                    <p>
+                        <span th:utext="${'<strong>Услуга:</strong> ' + property.serviceType.name}"></span>
+                        <br>
+                        <span th:utext="${'<strong>Тип недвижимости:</strong> ' + property.propertyType.name}"></span>
+                        <br>
+                        <th:block th:if="${property.floor != 0}">
+                            <span th:utext="${'<strong>Этаж:</strong> ' + property.floor}"></span>
+                            <br>
+                        </th:block>
+                        <th:block th:if="${property.floorsNumber != 0}">
+                            <span th:utext="${'<strong>Этажность:</strong> ' + property.floorsNumber}"></span>
+                            <br>
+                        </th:block>
+                        <th:block th:if="${property.roomNumber != 0}">
+                            <span th:utext="${'<strong>Количество комнат:</strong> ' + property.roomNumber}"></span>
+                            <br>
+                        </th:block>
+                        <span th:utext="${'<strong>Площадь: </strong> ' + #numbers.formatDecimal(property.area, 1, 2)}"></span>
+                    </p>
+                    <h4>РАСПОЛОЖЕНИЕ</h4>
+                    <p>
+                        <span th:utext="${'<strong>Город:</strong> ' + property.city}"></span>
+                        <br>
+                        <span th:utext="${'<strong>Район:</strong> ' + property.district}"></span>
+                        <br>
+                        <span th:utext="${'<strong>Улица:</strong> ' + property.street}"></span>
+                        <br>
+                        <th:block th:if="${!property.houseNumber.equals('0')}">
+                            <span th:utext="${'<strong>Номер недвижимости:</strong> ' + property.houseNumber}"></span>
+                        </th:block>
+                    </p>
+                    <h4>ЦЕНА</h4>
+                    <h5 class="text-success pb-1" th:text="${property.price / 100.0 + '$'}"></h5>
+                    <h4>КОНТАКТЫ</h4>
+                    <p>
+                        <span th:utext="${'<strong>Имя:</strong> ' + property.user.firstName}"></span>
+                        <br>
+                        <span th:utext="${'<strong>Телефон:</strong> ' + property.user.phone}"></span>
+                    </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-12 p-2">
+                    <h4>ОПИСАНИЕ</h4>
+                    <p class="text-justify" th:text="${property.description}"></p>
+                </div>
+            </div>
+            <div class="col-sm-12 p-2">
+                <h3 class="text-center">КАРТА</h3>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d790.0516815306403!2d27.089015078480475!3d53.147865193888784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46d9aa2f42783a57%3A0x8df13d47c7b481d9!2z0YPQuy4g0J_RgNC-0LvQtdGC0LDRgNGB0LrQsNGPLCDQmtC-0L_Ri9C70Yw!5e0!3m2!1sru!2sby!4v1620413579016!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

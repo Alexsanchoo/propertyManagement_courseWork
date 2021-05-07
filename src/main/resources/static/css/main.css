@@ -6,3 +6,15 @@
 .embed-responsive .card-img-top {
     object-fit: cover;
 }
+
+.embed-responsive .carousel-item {
+    object-fit: cover;
+}
+
+
+.scale-img {
+    transition: 500ms;
+}
+.scale-img:hover {
+    transform: scale(1.2);
+}

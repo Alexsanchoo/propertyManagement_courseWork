@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="in-review-tabs">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/active-ads}">Активные</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" th:href="@{/user/in-review-ads}">На проверке</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/user/not-active-ads}">Не активные</a>
+        </li>
+    </ul>
+</th:block>
+
+<th:block th:fragment="buttons">
+    <div class="row">
+        <div class="col-sm-6 p-2">
+            <a href="#" class="btn btn-primary">Редактировать</a>
+        </div>
+        <div class="col-sm-6 p-2">
+            <a href="#" class="btn btn-primary">Деактивировать</a>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

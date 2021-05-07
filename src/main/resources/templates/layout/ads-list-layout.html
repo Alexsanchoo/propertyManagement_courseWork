@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<main th:fragment="ad-list(mainContext, tabName)">
+<main th:fragment="ad-list(mainContext, buttons, tabName)">
     <div class="container">
         <section class="my-3">
             <th:block th:insert="${mainContext}"></th:block>
@@ -10,18 +10,32 @@
                 <th:block th:each="property, iStat : ${propertyPage.content}">
                     <div class="col-sm-4 p-2">
                         <div class="card h-100">
-                            <a href="#" class="embed-responsive embed-responsive-16by9">
+                            <a th:href="@{/ad/{propertyId}(propertyId=${property.id})}"
+                               class="embed-responsive embed-responsive-16by9">
                                 <img class="card-img-top embed-responsive-item"
                                      th:src="@{/img/property/{fileName}(fileName=${property.photos.get(0).name})}"/>
                             </a>
                             <div class="card-body">
-                                <h4 class="card-title text-center" th:text="${property.propertyType.name}"></h4>
-                                <p class="card-text text-left"
-                                   th:utext="${'<strong>Адрес</strong>: ' + property.city + ', ' + property.district + ', ' + property.street + ', ' + property.houseNumber +
-                                             '<br><strong>Телефон</strong>: ' + property.user.phone}"></p>
+                                <div class="d-flex justify-content-between">
+                                <h4 class="card-title" th:text="${property.propertyType.name}"></h4>
+                                <a href="#">
+                                    <img class="scale-img" th:src="@{/images/not-favorites.png}" width="30px" height="30px">
+                                </a>
+                                </div>
+                                <p class="card-text text-left">
+                                    <span class="font-weight-bold">Адрес: </span>
+                                    <span th:text="${'г. ' + property.city + ', '}"></span>
+                                    <span th:text="${'р-н ' + property.district + ', '}"></span>
+                                    <span th:text="${'ул. ' + property.street + (!property.houseNumber.equals('0') ? ', ' : '')}"></span>
+                                    <span th:if="${!property.houseNumber.equals('0')}"
+                                          th:text="${property.houseNumber}"></span>
+                                    <br>
+                                    <span class="font-weight-bold">Телефон: </span>
+                                    <span th:text="${property.user.phone}"></span>
+                                </p>
                             </div>
                             <div class="card-footer text-center">
-                                <a href="#" class="btn btn-primary">Редактировать</a>
+                                <th:block th:insert="${buttons}"></th:block>
                             </div>
                         </div>
                     </div>

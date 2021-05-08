@@ -1,14 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.springframework.org/schema/security">
+      xmlns:sec="http://www.springframework.org/schema/security" xmlns="http://www.w3.org/1999/html">
 <body>
 <th:block th:fragment="like(property, urlName, size)">
-    <a th:with="action=${@userServiceImpl.findUserByUserName(#authentication.name).getFavoritesProperty().contains(property)}? 'delete' : 'add'"
-       th:href="@{/user/{action}/favorite/{propertyId}(action=${action}, propertyId=${property.id}, url=${urlName})}"
-       sec:authorize="isAuthenticated() && !hasRole('ADMIN')">
-        <img class="scale-img img-fluid" th:width="${size}" th:height="${size}"
-             th:src="@{/images/{image}.png(image=${action == 'add'}? 'not-favorites' : 'in-favorites')}">
-    </a>
+    <form th:with="action=${@userServiceImpl.findUserByUserName(#authentication.name).getFavoritesProperty().contains(property)}? 'delete' : 'add'"
+          th:action="@{/user/{action}/favorite(action=${action})}"
+          sec:authorize="isAuthenticated() && !hasRole('ADMIN')"
+          method="post">
+        <input type="hidden" th:value="${property.id}" name="id">
+        <input type="hidden" th:value="${urlName}" name="url">
+        <input type="image" class="scale-img img-fluid" th:width="${size}" th:height="${size}"
+               th:src="@{/images/{image}.png(image=${action == 'add'}? 'not-favorites' : 'in-favorites')}">
+    </form>
 </th:block>
 </body>
 </html>

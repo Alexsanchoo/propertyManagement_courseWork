@@ -16,7 +16,7 @@
 </th:block>
 
 <th:block th:fragment="buttons">
-    <a href="#" class="btn btn-primary">Редактировать</a>
+    <a th:href="@{/user/ad/edit/{id}(id=${property.id})}" class="btn btn-primary">Редактировать</a>
 </th:block>
 </body>
 </html>

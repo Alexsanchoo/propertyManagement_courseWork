@@ -19,7 +19,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -39,8 +38,8 @@ import java.util.stream.IntStream;
 @Controller
 @RequestMapping("/user")
 public class UserController {
-	private static String ATTRIBUTE_NAME = "propertyDto";
-	private static String BINDING_RESULT_NAME = "org.springframework.validation.BindingResult." + ATTRIBUTE_NAME;
+	private static final String ATTRIBUTE_NAME = "propertyDto";
+	private static final String BINDING_RESULT_NAME = "org.springframework.validation.BindingResult." + ATTRIBUTE_NAME;
 
 	@Value("${upload.path}")
 	private String uploadPath;
@@ -216,21 +215,5 @@ public class UserController {
 			}
 		}
 		return photoList;
-	}
-
-	@GetMapping("/add/favorite/{id}")
-	public String addFavoriteProperty(@PathVariable int id,
-									  @RequestParam String url) {
-
-		this.userService.addFavoriteProperty(id);
-		return "redirect:" + url;
-	}
-
-	@GetMapping("/delete/favorite/{id}")
-	public String deleteFavoriteProperty(@PathVariable int id,
-										 @RequestParam String url) {
-
-		this.userService.deleteFavoriteProperty(id);
-		return "redirect:" + url;
 	}
 }

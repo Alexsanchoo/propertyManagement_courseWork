@@ -71,17 +71,10 @@
                     </p>
                     <div class="d-flex justify-content-start">
                         <th:block th:if="${#authentication.name == property.user.userName}">
-                            <a href="#" class="btn btn-primary mr-3">Редактировать</a>
+                            <a th:href="@{/user/ad/edit/{id}(id=${property.id})}" class="btn btn-primary">Редактировать</a>
                             <a th:if="${property.status.name != 'DENIED'}" href="#" class="btn btn-primary mr-3">Деактивировать</a>
                         </th:block>
                         <th:block class="mr-3" th:insert="~{fragment/like-fragment :: like(${property}, ${'/ad/' + property.id}, ${50})}"></th:block>
-                        <!--<a href="#" class="mr-3">
-                            <img sec:authorize="!hasRole('ADMIN')"
-                                 class="scale-img img-fluid"
-                                 th:src="@{/images/not-favorites.png}"
-                                 width="50"
-                                 height="50">
-                        </a>-->
                     </div>
                 </div>
             </div>

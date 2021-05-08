@@ -1,6 +1,7 @@
 package com.sanchoo.property.management.dto.property;
 
 import com.sanchoo.property.management.entity.photo.Photo;
+import com.sanchoo.property.management.entity.property.PropertyStatus;
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.validator.floor.CorrectFloor;
 import lombok.Data;
@@ -14,6 +15,7 @@ import java.util.List;
 @Data
 @CorrectFloor
 public class PropertyDto {
+	private int id;
 	private int serviceTypeId;
 	private int propertyTypeId;
 
@@ -54,4 +56,6 @@ public class PropertyDto {
 
 	@Size(min = 5, max = 100, message = "*Описание должно содержать от 5 до 100 символов включительно")
 	private String description;
+
+	private PropertyStatus status;
 }

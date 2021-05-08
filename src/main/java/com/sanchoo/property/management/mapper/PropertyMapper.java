@@ -21,12 +21,13 @@ public abstract class PropertyMapper {
 	@Autowired
 	private PropertyTypeRepository propertyTypeRepository;
 
-	@Mapping(target = "id", ignore = true)
 	@Mapping(target = "serviceType", source = "serviceTypeId")
 	@Mapping(target = "propertyType", source = "propertyTypeId")
-	@Mapping(target = "price", source = "price")
-	@Mapping(target = "status", ignore = true)
 	public abstract Property propertyDtoToProperty(PropertyDto propertyDto);
+
+	@Mapping(target = "serviceTypeId", source = "serviceType.id")
+	@Mapping(target = "propertyTypeId", source = "propertyType.id")
+	public abstract PropertyDto propertyToPropertyDto(Property property);
 
 	ServiceType mapServiceType(int serviceTypeId) {
 		Optional<ServiceType> serviceTypeOptional = this.serviceTypeRepository.findById(serviceTypeId);
@@ -40,5 +41,9 @@ public abstract class PropertyMapper {
 
 	int mapPrice(double price) {
 		return (int) (price * 100.0);
+	}
+
+	double mapPrice(int price) {
+		return price / 100.0;
 	}
 }

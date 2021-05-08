@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security">
 <body>
 <main th:fragment="ad">
     <section class="my-3">
@@ -56,8 +57,8 @@
                         <br>
                         <span th:utext="${'<strong>Улица:</strong> ' + property.street}"></span>
                         <br>
-                        <th:block th:if="${!property.houseNumber.equals('0')}">
-                            <span th:utext="${'<strong>Номер недвижимости:</strong> ' + property.houseNumber}"></span>
+                        <th:block th:if="${property.houseNumber != '0'}">
+                            <span th:utext="${'<strong>Номер:</strong> ' + property.houseNumber}"></span>
                         </th:block>
                     </p>
                     <h4>ЦЕНА</h4>
@@ -68,6 +69,19 @@
                         <br>
                         <span th:utext="${'<strong>Телефон:</strong> ' + property.user.phone}"></span>
                     </p>
+                    <div class="d-flex justify-content-start">
+                        <th:block th:if="${#authentication.name == property.user.userName}">
+                            <a href="#" class="btn btn-primary mr-3">Редактировать</a>
+                            <a th:if="${property.status.name != 'DENIED'}" href="#" class="btn btn-primary mr-3">Деактивировать</a>
+                        </th:block>
+                        <a href="#" class="mr-3">
+                            <img sec:authorize="!hasRole('ADMIN')"
+                                 class="scale-img img-fluid"
+                                 th:src="@{/images/not-favorites.png}"
+                                 width="50"
+                                 height="50">
+                        </a>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -78,7 +92,9 @@
             </div>
             <div class="col-sm-12 p-2">
                 <h3 class="text-center">КАРТА</h3>
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d790.0516815306403!2d27.089015078480475!3d53.147865193888784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46d9aa2f42783a57%3A0x8df13d47c7b481d9!2z0YPQuy4g0J_RgNC-0LvQtdGC0LDRgNGB0LrQsNGPLCDQmtC-0L_Ri9C70Yw!5e0!3m2!1sru!2sby!4v1620413579016!5m2!1sru!2sby" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                <!--переделать-->
+                <iframe class="w-100" height="300px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
+                        src="https://www.openstreetmap.org/export/embed.html?bbox=27.087899744510654%2C53.1471258523253%2C27.090410292148594%2C53.148250310373236&amp;layer=transportmap&amp;marker=53.14768815109555%2C27.089155350000055"></iframe>
             </div>
         </div>
     </section>

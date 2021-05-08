@@ -22,24 +22,23 @@ public abstract class PropertyMapper {
 	private PropertyTypeRepository propertyTypeRepository;
 
 	@Mapping(target = "id", ignore = true)
-	@Mapping(target = "serviceType", source = ".")
-	@Mapping(target = "propertyType", source = ".")
-	@Mapping(target = "price", source = ".")
+	@Mapping(target = "serviceType", source = "serviceTypeId")
+	@Mapping(target = "propertyType", source = "propertyTypeId")
+	@Mapping(target = "price", source = "price")
 	@Mapping(target = "status", ignore = true)
 	public abstract Property propertyDtoToProperty(PropertyDto propertyDto);
 
-	ServiceType mapServiceType(PropertyDto propertyDto) {
-		Optional<ServiceType> serviceTypeOptional = this.serviceTypeRepository.findById(propertyDto.getServiceTypeId());
+	ServiceType mapServiceType(int serviceTypeId) {
+		Optional<ServiceType> serviceTypeOptional = this.serviceTypeRepository.findById(serviceTypeId);
 		return serviceTypeOptional.get();
 	}
 
-	PropertyType mapPropertyType(PropertyDto propertyDto) {
-		Optional<PropertyType> propertyTypeOptional = this.propertyTypeRepository.findById(propertyDto.getPropertyTypeId());
+	PropertyType mapPropertyType(int propertyTypeId) {
+		Optional<PropertyType> propertyTypeOptional = this.propertyTypeRepository.findById(propertyTypeId);
 		return propertyTypeOptional.get();
 	}
 
-	int mapPrice(PropertyDto propertyDto) {
-		double price = propertyDto.getPrice();
+	int mapPrice(double price) {
 		return (int) (price * 100.0);
 	}
 }

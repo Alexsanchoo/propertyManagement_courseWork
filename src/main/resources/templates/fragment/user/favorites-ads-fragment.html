@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="buttons">
+    <div class="row" th:if="${#authentication.name == property.user.userName}">
+        <div class="col-sm-6 p-2">
+            <a href="#" class="btn btn-primary">Редактировать</a>
+        </div>
+        <div class="col-sm-6 p-2">
+            <a href="#" class="btn btn-primary">Деактивировать</a>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

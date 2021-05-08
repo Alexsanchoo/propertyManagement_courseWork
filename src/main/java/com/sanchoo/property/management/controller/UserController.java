@@ -124,6 +124,31 @@ public class UserController {
 		return "user/not-active-ads";
 	}
 
+	@GetMapping("/favorites-ads")
+	public String showFavoritesAds(Model model,
+								   @RequestParam("page") Optional<Integer> page,
+								   @RequestParam("size") Optional<Integer> size) {
+
+		//заменить------------------------------------
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(6);
+
+		Page<Property> propertyPage = this.propertyService.findPaginatedInWaitingAds(PageRequest.of(currentPage - 1, pageSize));
+
+		model.addAttribute("propertyPage", propertyPage);
+
+		int totalPages = propertyPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+		//заменить------------------------------------
+
+		return "user/favorites-ads";
+	}
+
 	@GetMapping("/ad/add")
 	public String addAd(Model model) {
 		List<ServiceType> serviceTypes = this.serviceTypeService.findAll();

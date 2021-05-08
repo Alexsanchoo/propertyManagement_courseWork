@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security">
 <body>
 <main th:fragment="ad-list(mainContext, buttons, tabName)">
     <div class="container">
@@ -18,16 +19,17 @@
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
                                 <h4 class="card-title" th:text="${property.propertyType.name}"></h4>
-                                <a href="#">
-                                    <img class="scale-img" th:src="@{/images/not-favorites.png}" width="30px" height="30px">
+                                <a href="#"
+                                   sec:authorize="!hasRole('ADMIN')">
+                                    <img class="scale-img img-fluid" th:src="@{/images/not-favorites.png}" width="30px" height="30px">
                                 </a>
                                 </div>
                                 <p class="card-text text-left">
                                     <span class="font-weight-bold">Адрес: </span>
                                     <span th:text="${'г. ' + property.city + ', '}"></span>
                                     <span th:text="${'р-н ' + property.district + ', '}"></span>
-                                    <span th:text="${'ул. ' + property.street + (!property.houseNumber.equals('0') ? ', ' : '')}"></span>
-                                    <span th:if="${!property.houseNumber.equals('0')}"
+                                    <span th:text="${'ул. ' + property.street + (property.houseNumber != '0' ? ', ' : '')}"></span>
+                                    <span th:if="${property.houseNumber != '0'}"
                                           th:text="${property.houseNumber}"></span>
                                     <br>
                                     <span class="font-weight-bold">Телефон: </span>

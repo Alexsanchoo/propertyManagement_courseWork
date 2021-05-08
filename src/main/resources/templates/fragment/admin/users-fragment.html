@@ -21,7 +21,7 @@
             <input type="hidden" th:value="${user.id}" name="id">
             <input type="hidden" value="/admin/users" name="url">
             <button type="submit" class="btn btn-primary"
-                    th:classappend="${#authentication.getName() == user.userName} ? disabled">
+                    th:classappend="${#authentication.name == user.userName} ? disabled">
                 Заблокировать
             </button>
         </form>
@@ -30,7 +30,7 @@
             <button class="btn btn-primary dropdown-toggle"
                     type="button"
                     data-toggle="dropdown"
-                    th:classappend="${#authentication.getName() == user.userName} ? disabled">
+                    th:classappend="${#authentication.name == user.userName} ? disabled">
                 Сменить роль
             </button>
             <div class="dropdown-menu">

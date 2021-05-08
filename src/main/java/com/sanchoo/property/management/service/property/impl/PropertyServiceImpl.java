@@ -122,4 +122,16 @@ public class PropertyServiceImpl implements PropertyService {
 		property.setStatus(PropertyStatus.IN_WAITING);
 		return this.propertyRepository.save(property);
 	}
+
+	@Override
+	public void deactivateProperty(int id) {
+		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
+		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.DENIED));
+	}
+
+	@Override
+	public void activateProperty(int id) {
+		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
+		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.IN_WAITING));
+	}
 }

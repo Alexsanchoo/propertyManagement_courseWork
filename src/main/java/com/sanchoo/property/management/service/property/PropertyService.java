@@ -22,4 +22,8 @@ public interface PropertyService {
 	List<Property> findByStatus(PropertyStatus propertyStatus);
 
 	Property update(Property property);
+
+	void deactivateProperty(int id);
+
+	void activateProperty(int id);
 }

@@ -16,7 +16,18 @@
 </th:block>
 
 <th:block th:fragment="buttons">
-    <a th:href="@{/user/ad/edit/{id}(id=${property.id})}" class="btn btn-primary">Редактировать</a>
+    <div class="row">
+        <div class="col-sm-6 p-2">
+            <a th:href="@{/user/ad/edit/{id}(id=${property.id})}" class="btn btn-primary">Редактировать</a>
+        </div>
+        <div class="col-sm-6 p-2">
+            <form class="mb-0" th:action="@{/user/ad/activate}" method="post">
+                <input type="hidden" th:value="${property.id}" name="id">
+                <input type="hidden" value="/user/not-active-ads" name="url">
+                <button type="submit" class="btn btn-primary">Активировать</button>
+            </form>
+        </div>
+    </div>
 </th:block>
 </body>
 </html>

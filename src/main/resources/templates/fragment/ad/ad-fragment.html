@@ -77,7 +77,24 @@
                     <div class="d-flex justify-content-start">
                         <th:block th:if="${#authentication.name == property.user.userName}">
                             <a th:href="@{/user/ad/edit/{id}(id=${property.id})}" class="btn btn-primary mr-3">Редактировать</a>
-                            <a th:if="${property.status.name != 'DENIED'}" href="#" class="btn btn-primary mr-3">Деактивировать</a>
+
+                            <form th:if="${property.status.name != 'DENIED'}"
+                                  class="mb-0 mr-3"
+                                  th:action="@{/user/ad/deactivate}"
+                                  method="post">
+                                <input type="hidden" th:value="${property.id}" name="id">
+                                <input type="hidden" th:value="${'/ad/' + property.id}" name="url">
+                                <button type="submit" class="btn btn-primary h-100">Деактивировать</button>
+                            </form>
+
+                            <form th:if="${property.status.name == 'DENIED'}"
+                                  class="mb-0 mr-3"
+                                  th:action="@{/user/ad/activate}"
+                                  method="post">
+                                <input type="hidden" th:value="${property.id}" name="id">
+                                <input type="hidden" th:value="${'/ad/' + property.id}" name="url">
+                                <button type="submit" class="btn btn-primary h-100">Активировать</button>
+                            </form>
                         </th:block>
                         <th:block th:insert="~{fragment/like-fragment :: like(${property}, ${'/ad/' + property.id}, ${50})}"></th:block>
                     </div>

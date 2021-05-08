@@ -171,4 +171,22 @@ public class AdController {
 		}
 		return photoList;
 	}
+
+	@PostMapping("/user/ad/deactivate")
+	public String deactivateAd(@RequestParam int id,
+							   @RequestParam String url) {
+
+		this.propertyService.deactivateProperty(id);
+
+		return "redirect:" + url;
+	}
+
+	@PostMapping("/user/ad/activate")
+	public String activateAd(@RequestParam int id,
+							 @RequestParam String url) {
+
+		this.propertyService.activateProperty(id);
+
+		return "redirect:" + url;
+	}
 }

@@ -116,4 +116,10 @@ public class PropertyServiceImpl implements PropertyService {
 	public List<Property> findByStatus(PropertyStatus propertyStatus) {
 		return this.propertyRepository.findByStatus(propertyStatus);
 	}
+
+	@Override
+	public Property update(Property property) {
+		property.setStatus(PropertyStatus.IN_WAITING);
+		return this.propertyRepository.save(property);
+	}
 }

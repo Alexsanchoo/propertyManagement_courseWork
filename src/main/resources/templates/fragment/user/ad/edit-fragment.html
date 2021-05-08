@@ -4,30 +4,34 @@
 <main th:fragment="edit-ad">
     <section class="my-3">
         <div class="container">
-            <form th:action="@{#}" method="post">
-                <h3>Фотографии</h3>
-                <div class="form-row my-3">
-                    <th:block th:each="photo : ${propertyDto.photos}">
-                        <div class="col-sm-2">
-                            <div class="card h-100">
-                                <div class="embed-responsive embed-responsive-1by1">
-                                    <img class="card-img-top embed-responsive-item"
-                                         th:src="@{/img/property/{fileName}(fileName=${photo.name})}"/>
-                                </div>
-                                <div class="card-footer text-center">
-                                    <button type="submit" class="btn btn-primary">Удалить</button>
-                                </div>
+            <h3>Фотографии</h3>
+            <div class="form-row my-3">
+                <th:block th:each="photo : ${propertyDto.photos}">
+                    <div class="col-sm-2">
+                        <div class="card h-100">
+                            <div class="embed-responsive embed-responsive-1by1">
+                                <img class="card-img-top embed-responsive-item"
+                                     th:src="@{/img/property/{fileName}(fileName=${photo.name})}"/>
+                            </div>
+                            <div class="card-footer text-center">
+                                <form th:action="@{/photo/delete}" method="post">
+                                    <input type="hidden" th:value="${photo.id}" name="id">
+                                    <input type="hidden" th:value="${'/user/ad/edit/' + propertyDto.id}" name="url">
+                                    <button type="submit" class="btn btn-primary"
+                                            th:disabled="${propertyDto.photos.size == 1}">
+                                        Удалить
+                                    </button>
+                                </form>
                             </div>
                         </div>
-                    </th:block>
-                </div>
-            </form>
-            <form th:action="@{#}" enctype="multipart/form-data" th:object="${propertyDto}" method="post">
+                    </div>
+                </th:block>
+            </div>
+            <form th:action="@{/user/ad/edit}" enctype="multipart/form-data" th:object="${propertyDto}" method="post">
                 <h3>Добавить новые фотографии</h3>
                 <div class="form-row my-3">
                     <div class="col-sm-6">
-                        <input type="file" class="form-control-file" multiple name="files"
-                               accept="image/jpeg,image/png">
+                        <input type="file" class="form-control-file" multiple name="files" accept="image/jpeg,image/png">
                     </div>
                 </div>
                 <div class="form-row" th:if="${#fields.hasErrors('photos')}">
@@ -36,9 +40,7 @@
                            th:text="${error}"></p>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Добавить фото</button>
-            </form>
-            <form th:action="@{/user/ad/edit}" th:object="${propertyDto}" method="post">
+
                 <h3>Услуга</h3>
                 <div class="form-row my-3">
                     <div class="col-sm-6">

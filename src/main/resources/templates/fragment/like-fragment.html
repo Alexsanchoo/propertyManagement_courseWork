@@ -6,7 +6,8 @@
     <form th:with="action=${@userServiceImpl.findUserByUserName(#authentication.name).getFavoritesProperty().contains(property)}? 'delete' : 'add'"
           th:action="@{/user/{action}/favorite(action=${action})}"
           sec:authorize="isAuthenticated() && !hasRole('ADMIN')"
-          method="post">
+          method="post"
+          class="mb-0 mr-3">
         <input type="hidden" th:value="${property.id}" name="id">
         <input type="hidden" th:value="${urlName}" name="url">
         <input type="image" class="scale-img img-fluid" th:width="${size}" th:height="${size}"

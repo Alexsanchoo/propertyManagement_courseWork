@@ -20,4 +20,6 @@ public interface PropertyService {
 	Optional<Property> findById(int id);
 
 	List<Property> findByStatus(PropertyStatus propertyStatus);
+
+	Property update(Property property);
 }

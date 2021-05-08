@@ -28,6 +28,8 @@
                 </th:block>
             </div>
             <form th:action="@{/user/ad/edit}" enctype="multipart/form-data" th:object="${propertyDto}" method="post">
+                <input type="hidden" th:value="${url}" name="url">
+
                 <h3>Добавить новые фотографии</h3>
                 <div class="form-row my-3">
                     <div class="col-sm-6">

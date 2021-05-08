@@ -76,7 +76,7 @@
                     </p>
                     <div class="d-flex justify-content-start">
                         <th:block th:if="${#authentication.name == property.user.userName}">
-                            <a th:href="@{/user/ad/edit/{id}(id=${property.id})}" class="btn btn-primary mr-3">Редактировать</a>
+                            <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/ad/' + property.id})}" class="btn btn-primary mr-3">Редактировать</a>
 
                             <form th:if="${property.status.name != 'DENIED'}"
                                   class="mb-0 mr-3"

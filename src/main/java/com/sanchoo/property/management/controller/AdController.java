@@ -100,6 +100,7 @@ public class AdController {
 
 	@GetMapping("/user/ad/edit/{id}")
 	public String editAd(@PathVariable int id,
+						 @RequestParam("url") Optional<String> urlOptional,
 						 Model model) {
 
 		List<ServiceType> serviceTypes = this.serviceTypeService.findAll();
@@ -114,6 +115,9 @@ public class AdController {
 				return "error";
 			}
 
+			String url = urlOptional.orElse("/ad/" + id);
+			model.addAttribute("url", url);
+
 			PropertyDto propertyDto = propertyMapper.propertyToPropertyDto(propertyOptional.get());
 			model.addAttribute(ATTRIBUTE_NAME, propertyDto);
 		}
@@ -123,6 +127,7 @@ public class AdController {
 
 	@PostMapping("/user/ad/edit")
 	public String editAd(@RequestParam("files") List<MultipartFile> files,
+						 @RequestParam String url,
 						 @ModelAttribute @Valid PropertyDto propertyDto,
 						 BindingResult bindingResult,
 						 RedirectAttributes redirectAttributes,
@@ -135,6 +140,7 @@ public class AdController {
 
 		if(bindingResult.hasErrors()) {
 			redirectAttributes.addFlashAttribute(BINDING_RESULT_NAME, bindingResult);
+			redirectAttributes.addFlashAttribute("url", url);
 			return "redirect:/user/ad/edit/" + propertyDto.getId();
 		}
 
@@ -146,7 +152,7 @@ public class AdController {
 
 		redirectAttributes.addFlashAttribute("successMessage", "Информация о недвижимости успешно обновлена!");
 
-		return "redirect:/ad/" + property.getId();
+		return "redirect:" + url;
 	}
 
 	private List<Photo> savePhotos(List<MultipartFile> photos) throws IOException {

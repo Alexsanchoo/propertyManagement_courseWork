@@ -4,6 +4,12 @@
 <body>
 <main th:fragment="ad-list(mainContext, buttons, urlName)">
     <div class="container">
+        <section class="my-3" th:if="${successMessage}">
+            <div class="alert alert-info">
+                <span th:text="${successMessage}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+            </div>
+        </section>
         <section class="my-3">
             <th:block th:insert="${mainContext}"></th:block>
 

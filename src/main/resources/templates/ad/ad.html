@@ -16,5 +16,11 @@
       )}">
 </html>
 
-
-<!--добавить для админа-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="hasRole('ADMIN')"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: admin-navbar-items},
+      ~{fragment/ad/ad-fragment :: ad}
+      )}">
+</html>

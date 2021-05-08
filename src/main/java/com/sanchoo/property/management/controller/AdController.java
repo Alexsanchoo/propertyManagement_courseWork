@@ -3,6 +3,7 @@ package com.sanchoo.property.management.controller;
 import com.sanchoo.property.management.dto.property.PropertyDto;
 import com.sanchoo.property.management.entity.photo.Photo;
 import com.sanchoo.property.management.entity.property.Property;
+import com.sanchoo.property.management.entity.property.PropertyStatus;
 import com.sanchoo.property.management.entity.property.PropertyType;
 import com.sanchoo.property.management.entity.property.ServiceType;
 import com.sanchoo.property.management.mapper.PropertyMapper;
@@ -12,6 +13,8 @@ import com.sanchoo.property.management.service.property.ServiceTypeService;
 import com.sanchoo.property.management.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -63,8 +66,16 @@ public class AdController {
 
 		Optional<Property> propertyOptional = this.propertyService.findById(id);
 
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		if(propertyOptional.isPresent()) {
-			model.addAttribute("property", propertyOptional.get());
+			Property property = propertyOptional.get();
+
+			if(property.getStatus() != PropertyStatus.APPROVED && !auth.getName().equals(property.getUser().getUserName())) {
+				return "error";
+			}
+
+			model.addAttribute("property", property);
 			return "ad/ad";
 		} else {
 			return "error";

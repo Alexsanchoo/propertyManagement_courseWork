@@ -2,6 +2,8 @@ package com.sanchoo.property.management.service.user.impl;
 
 
 import com.sanchoo.property.management.dto.password.PasswordDto;
+import com.sanchoo.property.management.entity.property.Property;
+import com.sanchoo.property.management.entity.property.PropertyStatus;
 import com.sanchoo.property.management.entity.user.Role;
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.exception.IncorrectPasswordException;
@@ -9,6 +11,7 @@ import com.sanchoo.property.management.exception.PasswordsNotMatchException;
 import com.sanchoo.property.management.exception.UserAlreadyExistsException;
 import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.repository.UserRepository;
+import com.sanchoo.property.management.service.property.PropertyService;
 import com.sanchoo.property.management.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +27,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -40,6 +44,8 @@ public class UserServiceImpl implements UserService {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
 	private SessionRegistry sessionRegistry;
+	@Autowired
+	private PropertyService propertyService;
 
 	@Override
 	public User findUserByUserName(String userName) {
@@ -255,5 +261,50 @@ public class UserServiceImpl implements UserService {
 		Optional<User> userOptional = this.userRepository.findById(id);
 		Role role = this.roleRepository.findByRole("ROLE_MODERATOR");
 		userOptional.ifPresent(user -> user.getRoles().add(role));
+	}
+
+	@Override
+	public void addFavoriteProperty(int propertyId) {
+		Optional<Property> propertyOptional = this.propertyService.findById(propertyId);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = this.userRepository.findByUserName(auth.getName());
+
+		propertyOptional.ifPresent(property -> user.getFavoritesProperty().add(property));
+	}
+
+	@Override
+	public void deleteFavoriteProperty(int propertyId) {
+		Optional<Property> propertyOptional = this.propertyService.findById(propertyId);
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = this.userRepository.findByUserName(auth.getName());
+
+		propertyOptional.ifPresent(property -> user.getFavoritesProperty().remove(property));
+	}
+
+	@Override
+	public Page<Property> findPaginatedFavoriteProperties(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = this.userRepository.findByUserName(auth.getName());
+
+		List<Property> favoriteProperties = new ArrayList<>(user.getFavoritesProperty());
+		List<Property> activeProperties = this.propertyService.findByStatus(PropertyStatus.APPROVED);
+		favoriteProperties.retainAll(activeProperties);
+
+		List<Property> resultList;
+
+		if(favoriteProperties.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, favoriteProperties.size());
+			resultList = favoriteProperties.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), favoriteProperties.size());
 	}
 }

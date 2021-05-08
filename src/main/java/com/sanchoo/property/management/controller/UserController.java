@@ -9,6 +9,7 @@ import com.sanchoo.property.management.mapper.PropertyMapper;
 import com.sanchoo.property.management.service.property.PropertyService;
 import com.sanchoo.property.management.service.property.PropertyTypeService;
 import com.sanchoo.property.management.service.property.ServiceTypeService;
+import com.sanchoo.property.management.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -54,6 +56,9 @@ public class UserController {
 
 	@Autowired
 	private PropertyMapper propertyMapper;
+
+	@Autowired
+	private UserService userService;
 
 	@GetMapping("/active-ads")
 	public String showActiveAds(Model model,
@@ -129,11 +134,10 @@ public class UserController {
 								   @RequestParam("page") Optional<Integer> page,
 								   @RequestParam("size") Optional<Integer> size) {
 
-		//заменить------------------------------------
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(6);
 
-		Page<Property> propertyPage = this.propertyService.findPaginatedInWaitingAds(PageRequest.of(currentPage - 1, pageSize));
+		Page<Property> propertyPage = this.userService.findPaginatedFavoriteProperties(PageRequest.of(currentPage - 1, pageSize));
 
 		model.addAttribute("propertyPage", propertyPage);
 
@@ -144,7 +148,6 @@ public class UserController {
 					.collect(Collectors.toList());
 			model.addAttribute("pageNumbers", pageNumbers);
 		}
-		//заменить------------------------------------
 
 		return "user/favorites-ads";
 	}
@@ -213,5 +216,21 @@ public class UserController {
 			}
 		}
 		return photoList;
+	}
+
+	@GetMapping("/add/favorite/{id}")
+	public String addFavoriteProperty(@PathVariable int id,
+									  @RequestParam String url) {
+
+		this.userService.addFavoriteProperty(id);
+		return "redirect:" + url;
+	}
+
+	@GetMapping("/delete/favorite/{id}")
+	public String deleteFavoriteProperty(@PathVariable int id,
+										 @RequestParam String url) {
+
+		this.userService.deleteFavoriteProperty(id);
+		return "redirect:" + url;
 	}
 }

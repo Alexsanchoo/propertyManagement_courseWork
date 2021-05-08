@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.springframework.org/schema/security">
+>
 <body>
-<main th:fragment="ad-list(mainContext, buttons, tabName)">
+<main th:fragment="ad-list(mainContext, buttons, urlName)">
     <div class="container">
         <section class="my-3">
             <th:block th:insert="${mainContext}"></th:block>
+
+            <h3 class="text-center my-3" th:if="${propertyPage.totalPages <= 0}">Список пуст!</h3>
 
             <div class="row">
                 <th:block th:each="property, iStat : ${propertyPage.content}">
@@ -18,11 +20,8 @@
                             </a>
                             <div class="card-body">
                                 <div class="d-flex justify-content-between">
-                                <h4 class="card-title" th:text="${property.propertyType.name}"></h4>
-                                <a href="#"
-                                   sec:authorize="!hasRole('ADMIN')">
-                                    <img class="scale-img img-fluid" th:src="@{/images/not-favorites.png}" width="30px" height="30px">
-                                </a>
+                                    <h4 class="card-title" th:text="${property.propertyType.name}"></h4>
+                                    <th:block th:insert="~{fragment/like-fragment :: like(${property}, ${urlName}, ${30})}"></th:block>
                                 </div>
                                 <p class="card-text text-left">
                                     <span class="font-weight-bold">Адрес: </span>
@@ -48,20 +47,20 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${propertyPage.number == 0} ? disabled">
                         <a class="page-link"
-                           th:href="@{/user/{tabName}(tabName=${tabName}, size=${propertyPage.size}, page=${propertyPage.number})}"
+                           th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${propertyPage.number})}"
                            tabindex="-1">Предыдущая</a>
                     </li>
                     <th:block th:each="pageNumber : ${pageNumbers}">
                         <li class="page-item" th:classappend="${pageNumber==propertyPage.number + 1} ? active">
                             <a class="page-link"
-                               th:href="@{/user/{tabName}(tabName=${tabName}, size=${propertyPage.size}, page=${pageNumber})}"
+                               th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${pageNumber})}"
                                th:text="${pageNumber}"></a>
                         </li>
                     </th:block>
                     <li class="page-item"
                         th:classappend="${propertyPage.number + 1 == propertyPage.totalPages} ? disabled">
                         <a class="page-link"
-                           th:href="@{/user/{tabName}(tabName=${tabName}, size=${propertyPage.size}, page=${propertyPage.number + 2})}"
+                           th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${propertyPage.number + 2})}"
                            tabindex="-1">Следующая</a>
                     </li>
                 </ul>

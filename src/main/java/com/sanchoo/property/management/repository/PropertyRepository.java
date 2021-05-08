@@ -9,4 +9,5 @@ import java.util.List;
 
 public interface PropertyRepository extends JpaRepository<Property, Integer> {
 	List<Property> findByStatusAndUser(PropertyStatus propertyStatus, User user);
+	List<Property> findByStatus(PropertyStatus propertyStatus);
 }

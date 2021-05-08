@@ -1,6 +1,7 @@
 package com.sanchoo.property.management.service.user;
 
 import com.sanchoo.property.management.dto.password.PasswordDto;
+import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.exception.IncorrectPasswordException;
 import com.sanchoo.property.management.exception.PasswordsNotMatchException;
@@ -38,4 +39,10 @@ public interface UserService {
 	void changeRoleToUser(int id);
 
 	void changeRoleToModerator(int id);
+
+	void addFavoriteProperty(int propertyId);
+
+	void deleteFavoriteProperty(int propertyId);
+
+	Page<Property> findPaginatedFavoriteProperties(Pageable pageable);
 }

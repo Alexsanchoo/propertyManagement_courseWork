@@ -82,4 +82,8 @@ public class User {
 	@OneToMany(cascade = CascadeType.ALL,
 			mappedBy = "user")
 	private List<Property> properties;
+
+	@ManyToMany
+	@JoinTable(name="user_property", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "property_id"))
+	private List<Property> favoritesProperty;
 }

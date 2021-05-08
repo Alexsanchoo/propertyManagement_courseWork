@@ -111,4 +111,9 @@ public class PropertyServiceImpl implements PropertyService {
 	public Optional<Property> findById(int id) {
 		return this.propertyRepository.findById(id);
 	}
+
+	@Override
+	public List<Property> findByStatus(PropertyStatus propertyStatus) {
+		return this.propertyRepository.findByStatus(propertyStatus);
+	}
 }

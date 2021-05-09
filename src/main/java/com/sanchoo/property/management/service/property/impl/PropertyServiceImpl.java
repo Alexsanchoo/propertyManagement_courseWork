@@ -2,11 +2,13 @@ package com.sanchoo.property.management.service.property.impl;
 
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyStatus;
+import com.sanchoo.property.management.entity.property.ServiceType;
 import com.sanchoo.property.management.entity.user.Role;
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.repository.PropertyRepository;
 import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.service.property.PropertyService;
+import com.sanchoo.property.management.service.property.ServiceTypeService;
 import com.sanchoo.property.management.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,6 +36,9 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Autowired
 	private RoleRepository roleRepository;
+
+	@Autowired
+	private ServiceTypeService serviceTypeService;
 
 	@Override
 	public Property save(Property property) {
@@ -119,6 +124,48 @@ public class PropertyServiceImpl implements PropertyService {
 		int startItem = currentPage * pageSize;
 
 		List<Property> properties = this.propertyRepository.findByStatus(PropertyStatus.IN_WAITING);
+		List<Property> resultList;
+
+		if(properties.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, properties.size());
+			resultList = properties.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), properties.size());
+	}
+
+	@Override
+	public Page<Property> findPaginatedSaleAds(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		Optional<ServiceType> serviceTypeOptional = this.serviceTypeService.findById(1);
+
+		List<Property> properties = this.propertyRepository.findByStatusAndServiceType(PropertyStatus.APPROVED, serviceTypeOptional.orElse(null));
+		List<Property> resultList;
+
+		if(properties.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, properties.size());
+			resultList = properties.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), properties.size());
+	}
+
+	@Override
+	public Page<Property> findPaginatedRentAds(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		Optional<ServiceType> serviceTypeOptional = this.serviceTypeService.findById(2);
+
+		List<Property> properties = this.propertyRepository.findByStatusAndServiceType(PropertyStatus.APPROVED, serviceTypeOptional.orElse(null));
 		List<Property> resultList;
 
 		if(properties.size() < startItem) {

@@ -19,6 +19,10 @@ public interface PropertyService {
 
 	Page<Property> findPaginatedAdsToCheck(Pageable pageable);
 
+	Page<Property> findPaginatedSaleAds(Pageable pageable);
+
+	Page<Property> findPaginatedRentAds(Pageable pageable);
+
 	Optional<Property> findById(int id);
 
 	List<Property> findByStatus(PropertyStatus propertyStatus);

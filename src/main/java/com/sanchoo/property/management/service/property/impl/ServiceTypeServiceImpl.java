@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -19,5 +20,10 @@ public class ServiceTypeServiceImpl implements ServiceTypeService {
 	@Override
 	public List<ServiceType> findAll() {
 		return this.serviceTypeRepository.findAll();
+	}
+
+	@Override
+	public Optional<ServiceType> findById(int id) {
+		return this.serviceTypeRepository.findById(id);
 	}
 }

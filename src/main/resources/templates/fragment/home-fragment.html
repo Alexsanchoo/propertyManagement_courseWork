@@ -13,53 +13,53 @@
         <div class="container">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active border rounded" data-toggle="tab"
-                       href="#content-simple-search">
-                        Поиск недвижимости
-                    </a>
+                    <a class="nav-link active" th:href="@{/}">Поиск недвижимости</a>
                 </li>
             </ul>
 
-            <div class="tab-content">
-                <div class="tab-pane fade show active border rounded" id="content-simple-search">
-                    <form class="p-2">
-                        <div class="form-row">
-                            <div class="col-sm-3 form-group">
-                                <label>Тип недвижимости</label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="col-sm-2 form-group">
-                                <label>Город</label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="col-sm-2 form-group">
-                                <label>Район</label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="col-sm-2 form-group">
-                                <label>Кол-во комнат</label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="col-sm-1 form-group">
-                                <label>Цена от</label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="col-sm-1 form-group">
-                                <label>Цена до</label>
-                                <input type="text" class="form-control"/>
-                            </div>
-                            <div class="col-sm-1 form-group">
-                                <label class="invisible">""</label>
-                                <button type="submit" class="btn btn-primary">Поиск</button>
-                            </div>
+            <div class="border-left border-right border-bottom rounded-bottom">
+                <form class="p-2" th:action="@{#}" th:object="${propertyDto}" method="post">
+                    <div class="form-row">
+                        <div class="col-sm-3 form-group">
+                            <label>Тип недвижимости</label>
+                            <select class="form-control" th:field="*{propertyTypeId}">
+                                <option th:each="propertyType : ${propertyTypes}"
+                                        th:value="${propertyType.id}"
+                                        th:text="${propertyType.name}"
+                                        th:selected="${propertyType.id == propertyTypeId}"></option>
+                            </select>
                         </div>
-                        <div class="form-row">
-                            <div class="offset-10 col-sm-2">
-                                <a class="btn-link" href="#">Расширенный поиск</a>
-                            </div>
+                        <div class="col-sm-2 form-group">
+                            <label>Город</label>
+                            <input type="text" class="form-control" th:field="*{city}">
                         </div>
-                    </form>
-                </div>
+                        <div class="col-sm-2 form-group">
+                            <label>Район</label>
+                            <input type="text" class="form-control" th:field="*{district}">
+                        </div>
+                        <div class="col-sm-2 form-group">
+                            <label>Кол-во комнат</label>
+                            <input type="number" class="form-control" th:field="*{roomNumber}">
+                        </div>
+                        <div class="col-sm-1 form-group">
+                            <label>Цена от</label>
+                            <input type="number" step="any" class="form-control" th:field="*{price}">
+                        </div>
+                        <div class="col-sm-1 form-group">
+                            <label>Цена до</label>
+                            <input type="number" step="any" class="form-control" th:field="*{price}">
+                        </div>
+                        <div class="col-sm-1 form-group">
+                            <label class="invisible">""</label>
+                            <button type="submit" class="btn btn-primary">Поиск</button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="offset-10 col-sm-2">
+                            <a class="btn-link" th:href="@{/catalog/sale}">Расширенный поиск</a>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </section>

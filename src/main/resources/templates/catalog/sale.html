@@ -1,0 +1,41 @@
+<!--Guest-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="!isAuthenticated()"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: guest-navbar-items},
+      ~{layout/ads-list-layout :: ad-list(
+        ~{fragment/catalog/sale-fragment :: sale-tabs},
+        ~{},
+        ${'/catalog/sale'}
+        )}
+      )}">
+</html>
+
+<!--User/moderator-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="hasRole('USER')"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: user-moderator-navbar-items},
+      ~{layout/ads-list-layout :: ad-list(
+        ~{fragment/catalog/sale-fragment :: sale-tabs},
+        ~{},
+        ${'/catalog/sale'}
+        )}
+      )}">
+</html>
+
+<!--Admin-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/schema/security"
+      sec:authorize="hasRole('ADMIN')"
+      th:replace="~{layout/main-layout :: main-fragment(
+      ~{fragment/navbar-fragment :: admin-navbar-items},
+      ~{layout/ads-list-layout :: ad-list(
+        ~{fragment/catalog/sale-fragment :: sale-tabs},
+        ~{},
+        ${'/catalog/sale'}
+        )}
+      )}">
+</html>

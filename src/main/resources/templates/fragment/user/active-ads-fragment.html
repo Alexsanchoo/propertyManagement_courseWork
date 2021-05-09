@@ -2,30 +2,35 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <th:block th:fragment="active-tabs">
-    <ul class="nav nav-tabs">
-        <li class="nav-item">
-            <a class="nav-link active" th:href="@{/user/active-ads}">Активные</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/user/in-review-ads}">На проверке</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/user/not-active-ads}">Не активные</a>
-        </li>
-    </ul>
+    <div class="my-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/user/active-ads}">Активные</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/in-review-ads}">На проверке</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/user/not-active-ads}">Не активные</a>
+            </li>
+        </ul>
+    </div>
 </th:block>
 
 <th:block th:fragment="buttons">
-    <div class="row">
-        <div class="col-sm-6 p-2">
-            <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/user/active-ads'})}" class="btn btn-primary">Редактировать</a>
-        </div>
-        <div class="col-sm-6 p-2">
-            <form class="mb-0" th:action="@{/user/ad/deactivate}" method="post">
-                <input type="hidden" th:value="${property.id}" name="id">
-                <input type="hidden" value="/user/active-ads" name="url">
-                <button type="submit" class="btn btn-primary">Деактивировать</button>
-            </form>
+    <div class="card-footer text-center">
+        <div class="row">
+            <div class="col-sm-6 p-2">
+                <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/user/active-ads'})}"
+                   class="btn btn-primary">Редактировать</a>
+            </div>
+            <div class="col-sm-6 p-2">
+                <form class="mb-0" th:action="@{/user/ad/deactivate}" method="post">
+                    <input type="hidden" th:value="${property.id}" name="id">
+                    <input type="hidden" value="/user/active-ads" name="url">
+                    <button type="submit" class="btn btn-primary">Деактивировать</button>
+                </form>
+            </div>
         </div>
     </div>
 </th:block>

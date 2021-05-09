@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="rent-tabs">
+    <div class="my-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/catalog/sale}">Продажа</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" th:href="@{/catalog/rent}">Аренда</a>
+            </li>
+        </ul>
+
+        <th:block th:insert="~{fragment/catalog/catalog-fragment :: search}"></th:block>
+    </div>
+</th:block>
+</body>
+</html>

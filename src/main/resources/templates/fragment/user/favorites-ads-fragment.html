@@ -2,16 +2,19 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 <th:block th:fragment="buttons">
-    <div class="row" th:if="${#authentication.name == property.user.userName}">
-        <div class="col-sm-6 p-2">
-            <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/user/favorites-ads'})}" class="btn btn-primary">Редактировать</a>
-        </div>
-        <div class="col-sm-6 p-2">
-            <form class="mb-0" th:action="@{/user/ad/deactivate}" method="post">
-                <input type="hidden" th:value="${property.id}" name="id">
-                <input type="hidden" value="/user/favorites-ads" name="url">
-                <button type="submit" class="btn btn-primary">Деактивировать</button>
-            </form>
+    <div class="card-footer text-center" th:if="${#authentication.name == property.user.userName}">
+        <div class="row">
+            <div class="col-sm-6 p-2">
+                <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/user/favorites-ads'})}"
+                   class="btn btn-primary">Редактировать</a>
+            </div>
+            <div class="col-sm-6 p-2">
+                <form class="mb-0" th:action="@{/user/ad/deactivate}" method="post">
+                    <input type="hidden" th:value="${property.id}" name="id">
+                    <input type="hidden" value="/user/favorites-ads" name="url">
+                    <button type="submit" class="btn btn-primary">Деактивировать</button>
+                </form>
+            </div>
         </div>
     </div>
 </th:block>

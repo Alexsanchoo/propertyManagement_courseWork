@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="search">
+    <div class="border-left border-right border-bottom rounded-bottom">
+        <form class="p-2">
+            <div class="form-row">
+                <div class="col-sm-3 form-group">
+                    <label>Тип недвижимости</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label>Город</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label>Район</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label>Кол-во комнат</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label>Цена от</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label>Цена до</label>
+                    <input type="text" class="form-control"/>
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label class="invisible">""</label>
+                    <button type="submit" class="btn btn-primary">Поиск</button>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="offset-10 col-sm-2">
+                    <a class="btn-link" href="#">Расширенный поиск</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</th:block>
+</body>
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<th:block th:fragment="buttons">
+    <div class="row">
+        <div class="col-sm-6 p-2">
+            <form class="mb-0" th:action="@{/moderator/ad/approve}" method="post">
+                <input type="hidden" th:value="${property.id}" name="id">
+                <input type="hidden" value="/moderator/check-ads" name="url">
+                <button type="submit" class="btn btn-primary">Одобрить</button>
+            </form>
+        </div>
+        <div class="col-sm-6 p-2">
+            <form class="mb-0" th:action="@{/moderator/ad/deny}" method="post">
+                <input type="hidden" th:value="${property.id}" name="id">
+                <input type="hidden" value="/moderator/check-ads" name="url">
+                <button type="submit" class="btn btn-primary">Отказать</button>
+            </form>
+        </div>
+    </div>
+</th:block>
+</body>
+</html>

@@ -17,6 +17,8 @@ public interface PropertyService {
 
 	Page<Property> findPaginatedNotActiveAds(Pageable pageable);
 
+	Page<Property> findPaginatedAdsToCheck(Pageable pageable);
+
 	Optional<Property> findById(int id);
 
 	List<Property> findByStatus(PropertyStatus propertyStatus);
@@ -26,4 +28,10 @@ public interface PropertyService {
 	void deactivateProperty(int id);
 
 	void activateProperty(int id);
+
+	void approveProperty(int id);
+
+	void denyProperty(int id);
+
+	boolean hasAccessAuthorizedUser(Property property);
 }

@@ -76,7 +76,8 @@
                     </p>
                     <div class="d-flex justify-content-start">
                         <th:block th:if="${#authentication.name == property.user.userName}">
-                            <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/ad/' + property.id})}" class="btn btn-primary mr-3">Редактировать</a>
+                            <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/ad/' + property.id})}"
+                               class="btn btn-primary mr-3">Редактировать</a>
 
                             <form th:if="${property.status.name != 'DENIED'}"
                                   class="mb-0 mr-3"
@@ -96,7 +97,8 @@
                                 <button type="submit" class="btn btn-primary h-100">Активировать</button>
                             </form>
                         </th:block>
-                        <th:block th:insert="~{fragment/like-fragment :: like(${property}, ${'/ad/' + property.id}, ${50})}"></th:block>
+                        <th:block
+                                th:insert="~{fragment/like-fragment :: like(${property}, ${'/ad/' + property.id}, ${50})}"></th:block>
                     </div>
                 </div>
             </div>
@@ -106,6 +108,28 @@
                     <p class="text-justify" th:text="${property.description}"></p>
                 </div>
             </div>
+
+            <th:block th:with="user=${@userRepository.findByUserName(#authentication.name)},
+                 role=${@roleRepository.findByRole('ROLE_MODERATOR')}">
+                <div class="row"
+                     th:if="${property.status.name == 'IN_WAITING' && role != null && user != null && user.roles.contains(role)}">
+                    <div class="col-sm-12 p-2">
+                        <div class="d-flex justify-content-start">
+                            <form class="mb-0 mr-3" th:action="@{/moderator/ad/approve}" method="post">
+                                <input type="hidden" th:value="${property.id}" name="id">
+                                <input type="hidden" th:value="${'/ad/' + property.id}" name="url">
+                                <button type="submit" class="btn btn-primary">Одобрить</button>
+                            </form>
+
+                            <form class="mb-0 mr-3" th:action="@{/moderator/ad/deny}" method="post">
+                                <input type="hidden" th:value="${property.id}" name="id">
+                                <input type="hidden" value="/moderator/check-ads" name="url">
+                                <button type="submit" class="btn btn-primary">Отказать</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
         </div>
     </section>
 </main>

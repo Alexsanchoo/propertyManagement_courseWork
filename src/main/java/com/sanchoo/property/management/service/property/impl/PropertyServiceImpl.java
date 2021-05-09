@@ -2,8 +2,10 @@ package com.sanchoo.property.management.service.property.impl;
 
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyStatus;
+import com.sanchoo.property.management.entity.user.Role;
 import com.sanchoo.property.management.entity.user.User;
 import com.sanchoo.property.management.repository.PropertyRepository;
+import com.sanchoo.property.management.repository.RoleRepository;
 import com.sanchoo.property.management.service.property.PropertyService;
 import com.sanchoo.property.management.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private RoleRepository roleRepository;
 
 	@Override
 	public Property save(Property property) {
@@ -108,6 +113,25 @@ public class PropertyServiceImpl implements PropertyService {
 	}
 
 	@Override
+	public Page<Property> findPaginatedAdsToCheck(Pageable pageable) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		List<Property> properties = this.propertyRepository.findByStatus(PropertyStatus.IN_WAITING);
+		List<Property> resultList;
+
+		if(properties.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, properties.size());
+			resultList = properties.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), properties.size());
+	}
+
+	@Override
 	public Optional<Property> findById(int id) {
 		return this.propertyRepository.findById(id);
 	}
@@ -133,5 +157,47 @@ public class PropertyServiceImpl implements PropertyService {
 	public void activateProperty(int id) {
 		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
 		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.IN_WAITING));
+	}
+
+	@Override
+	public void approveProperty(int id) {
+		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
+		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.APPROVED));
+	}
+
+	@Override
+	public void denyProperty(int id) {
+		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
+		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.DENIED));
+	}
+
+	@Override
+	public boolean hasAccessAuthorizedUser(Property property) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = this.userService.findUserByUserName(auth.getName());
+
+		Role moderatorRole = this.roleRepository.findByRole("ROLE_MODERATOR");
+
+		switch (property.getStatus()) {
+
+			case IN_WAITING: {
+				if(property.getUser().equals(user) || user.getRoles().contains(moderatorRole)) {
+					return true;
+				}
+			}
+				break;
+
+			case APPROVED:
+				return true;
+
+			case DENIED: {
+				if(property.getUser().equals(user)) {
+					return true;
+				}
+			}
+				break;
+		}
+
+		return false;
 	}
 }

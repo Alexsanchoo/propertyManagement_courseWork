@@ -51,8 +51,16 @@ public class PropertyDto {
 	@Min(value = 1, message = "*Метраж не может быть отрицательным или равен 0")
 	private double area;
 
+	private double areaFrom;
+
+	private double areaTo;
+
 	@Min(value = 0, message = "*Стоимость не может быть отрицательной")
 	private double price;
+
+	private double priceFrom;
+
+	private double priceTo;
 
 	@Size(min = 5, max = 100, message = "*Описание должно содержать от 5 до 100 символов включительно")
 	private String description;

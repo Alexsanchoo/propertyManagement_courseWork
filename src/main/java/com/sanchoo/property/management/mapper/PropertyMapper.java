@@ -27,6 +27,10 @@ public abstract class PropertyMapper {
 
 	@Mapping(target = "serviceTypeId", source = "serviceType.id")
 	@Mapping(target = "propertyTypeId", source = "propertyType.id")
+	@Mapping(target = "priceFrom", ignore = true)
+	@Mapping(target = "priceTo", ignore = true)
+	@Mapping(target = "areaFrom", ignore = true)
+	@Mapping(target = "areaTo", ignore = true)
 	public abstract PropertyDto propertyToPropertyDto(Property property);
 
 	ServiceType mapServiceType(int serviceTypeId) {

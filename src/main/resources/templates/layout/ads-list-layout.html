@@ -28,7 +28,11 @@
                                 <div class="d-flex justify-content-between">
                                     <h4 class="card-title" th:text="${property.propertyType.name}"></h4>
                                     <th:block
-                                            th:insert="~{fragment/like-fragment :: like(${property}, ${urlName}, ${30})}"></th:block>
+                                            th:insert="~{fragment/like-fragment :: like(
+                                            ${property},
+                                            ${urlName + '?size=' + propertyPage.size + '&page=' + (propertyPage.number + 1)},
+                                            ${30})}">
+                                    </th:block>
                                 </div>
                                 <p class="card-text text-left">
                                     <span class="font-weight-bold">Адрес: </span>
@@ -52,20 +56,32 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item" th:classappend="${propertyPage.number == 0} ? disabled">
                         <a class="page-link"
-                           th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${propertyPage.number})}"
+                           th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${propertyPage.number},
+                           propertyTypeId=${propertyDto?.propertyTypeId}, city=${propertyDto?.city}, district=${propertyDto?.district},
+                           street=${propertyDto?.street}, floor=${propertyDto?.floor}, floorsNumber=${propertyDto?.floorsNumber},
+                           roomNumber=${propertyDto?.roomNumber}, areaFrom=${propertyDto?.areaFrom}, areaTo=${propertyDto?.areaTo},
+                           priceFrom=${propertyDto?.priceFrom}, priceTo=${propertyDto?.priceTo})}"
                            tabindex="-1">Предыдущая</a>
                     </li>
                     <th:block th:each="pageNumber : ${pageNumbers}">
                         <li class="page-item" th:classappend="${pageNumber==propertyPage.number + 1} ? active">
                             <a class="page-link"
-                               th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${pageNumber})}"
+                               th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${pageNumber},
+                           propertyTypeId=${propertyDto?.propertyTypeId}, city=${propertyDto?.city}, district=${propertyDto?.district},
+                           street=${propertyDto?.street}, floor=${propertyDto?.floor}, floorsNumber=${propertyDto?.floorsNumber},
+                           roomNumber=${propertyDto?.roomNumber}, areaFrom=${propertyDto?.areaFrom}, areaTo=${propertyDto?.areaTo},
+                           priceFrom=${propertyDto?.priceFrom}, priceTo=${propertyDto?.priceTo})}"
                                th:text="${pageNumber}"></a>
                         </li>
                     </th:block>
                     <li class="page-item"
                         th:classappend="${propertyPage.number + 1 == propertyPage.totalPages} ? disabled">
                         <a class="page-link"
-                           th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${propertyPage.number + 2})}"
+                           th:href="@{{urlName}(urlName=${urlName}, size=${propertyPage.size}, page=${propertyPage.number + 2},
+                            propertyTypeId=${propertyDto?.propertyTypeId}, city=${propertyDto?.city}, district=${propertyDto?.district},
+                           street=${propertyDto?.street}, floor=${propertyDto?.floor}, floorsNumber=${propertyDto?.floorsNumber},
+                           roomNumber=${propertyDto?.roomNumber}, areaFrom=${propertyDto?.areaFrom}, areaTo=${propertyDto?.areaTo},
+                           priceFrom=${propertyDto?.priceFrom}, priceTo=${propertyDto?.priceTo})}"
                            tabindex="-1">Следующая</a>
                     </li>
                 </ul>

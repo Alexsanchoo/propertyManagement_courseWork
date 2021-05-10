@@ -1,14 +1,15 @@
 package com.sanchoo.property.management.controller;
 
+import com.sanchoo.property.management.dto.property.PropertyDto;
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.service.property.PropertyService;
-import com.sanchoo.property.management.service.property.PropertyTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -27,12 +28,21 @@ public class CatalogController {
 	@GetMapping("/sale")
 	public String showSaleCatalog(Model model,
 								  @RequestParam("page") Optional<Integer> page,
-								  @RequestParam("size") Optional<Integer> size) {
+								  @RequestParam("size") Optional<Integer> size,
+								  @ModelAttribute PropertyDto propertyDto) {
 
 		int currentPage = page.orElse(1);
 		int pageSize = size.orElse(6);
 
-		Page<Property> propertyPage = this.propertyService.findPaginatedSaleAds(PageRequest.of(currentPage - 1, pageSize));
+		Page<Property> propertyPage;
+		if(propertyDto.getPropertyTypeId() != 0) {
+			propertyPage = this.propertyService.findPaginatedSaleAds(
+					PageRequest.of(currentPage - 1, pageSize),
+					propertyDto);
+			model.addAttribute("propertyDto", propertyDto);
+		} else  {
+			propertyPage = this.propertyService.findPaginatedSaleAds(PageRequest.of(currentPage - 1, pageSize));
+		}
 
 		model.addAttribute("propertyPage", propertyPage);
 

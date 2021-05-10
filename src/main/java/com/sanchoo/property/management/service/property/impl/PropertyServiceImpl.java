@@ -1,5 +1,6 @@
 package com.sanchoo.property.management.service.property.impl;
 
+import com.sanchoo.property.management.dto.property.PropertyDto;
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyStatus;
 import com.sanchoo.property.management.entity.property.ServiceType;
@@ -145,6 +146,25 @@ public class PropertyServiceImpl implements PropertyService {
 		Optional<ServiceType> serviceTypeOptional = this.serviceTypeService.findById(1);
 
 		List<Property> properties = this.propertyRepository.findByStatusAndServiceType(PropertyStatus.APPROVED, serviceTypeOptional.orElse(null));
+		List<Property> resultList;
+
+		if(properties.size() < startItem) {
+			resultList = Collections.emptyList();
+		} else {
+			int toIndex = Math.min(startItem + pageSize, properties.size());
+			resultList = properties.subList(startItem, toIndex);
+		}
+
+		return new PageImpl<>(resultList, PageRequest.of(currentPage, pageSize), properties.size());
+	}
+
+	@Override
+	public Page<Property> findPaginatedSaleAds(Pageable pageable, PropertyDto propertyDto) {
+		int pageSize = pageable.getPageSize();
+		int currentPage = pageable.getPageNumber();
+		int startItem = currentPage * pageSize;
+
+		List<Property> properties = this.propertyRepository.findSalesAdsByPropertyDto(propertyDto, 1);
 		List<Property> resultList;
 
 		if(properties.size() < startItem) {

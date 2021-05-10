@@ -1,5 +1,6 @@
 package com.sanchoo.property.management.service.property;
 
+import com.sanchoo.property.management.dto.property.PropertyDto;
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyStatus;
 import org.springframework.data.domain.Page;
@@ -20,6 +21,8 @@ public interface PropertyService {
 	Page<Property> findPaginatedAdsToCheck(Pageable pageable);
 
 	Page<Property> findPaginatedSaleAds(Pageable pageable);
+
+	Page<Property> findPaginatedSaleAds(Pageable pageable, PropertyDto propertyDto);
 
 	Page<Property> findPaginatedRentAds(Pageable pageable);
 

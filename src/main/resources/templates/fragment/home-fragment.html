@@ -18,7 +18,7 @@
             </ul>
 
             <div class="border-left border-right border-bottom rounded-bottom">
-                <form class="p-2" th:action="@{#}" th:object="${propertyDto}" method="post">
+                <form class="p-2" th:action="@{/catalog/sale}" th:object="${propertyDto}" method="get">
                     <div class="form-row">
                         <div class="col-sm-3 form-group">
                             <label>Тип недвижимости</label>
@@ -43,11 +43,11 @@
                         </div>
                         <div class="col-sm-1 form-group">
                             <label>Цена от</label>
-                            <input type="number" step="any" class="form-control" th:field="*{price}">
+                            <input type="number" step="any" class="form-control" th:field="*{priceFrom}">
                         </div>
                         <div class="col-sm-1 form-group">
                             <label>Цена до</label>
-                            <input type="number" step="any" class="form-control" th:field="*{price}">
+                            <input type="number" step="any" class="form-control" th:field="*{priceTo}">
                         </div>
                         <div class="col-sm-1 form-group">
                             <label class="invisible">""</label>

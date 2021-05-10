@@ -6,5 +6,5 @@ import com.sanchoo.property.management.entity.property.Property;
 import java.util.List;
 
 public interface PropertySearchRepository {
-	List<Property> findSalesAdsByPropertyDto(PropertyDto propertyDto, int servicetTypeId);
+	List<Property> findAdsByPropertyDto(PropertyDto propertyDto, int servicetTypeId);
 }

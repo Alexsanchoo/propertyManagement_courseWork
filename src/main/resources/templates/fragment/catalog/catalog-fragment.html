@@ -1,33 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
-<th:block th:fragment="search">
+<th:block th:fragment="search(url)">
     <div class="border-left border-right border-bottom rounded-bottom">
-        <form class="p-2">
+        <form class="p-2" th:action="@{{url}(url=${url})}" th:object="${propertyDto}" method="get">
             <div class="form-row">
                 <div class="col-sm-3 form-group">
                     <label>Тип недвижимости</label>
-                    <input type="text" class="form-control"/>
+                    <select class="form-control" th:field="*{propertyTypeId}">
+                        <option th:each="propertyType : ${propertyTypes}"
+                                th:value="${propertyType.id}"
+                                th:text="${propertyType.name}"
+                                th:selected="${propertyType.id == propertyTypeId}"></option>
+                    </select>
                 </div>
                 <div class="col-sm-2 form-group">
                     <label>Город</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" th:field="*{city}">
                 </div>
                 <div class="col-sm-2 form-group">
                     <label>Район</label>
-                    <input type="text" class="form-control"/>
+                    <input type="text" class="form-control" th:field="*{district}">
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label>Этаж</label>
+                    <input type="number" class="form-control" th:field="*{floor}">
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label>Этажн.</label>
+                    <input type="number" class="form-control" th:field="*{floorsNumber}">
                 </div>
                 <div class="col-sm-2 form-group">
                     <label>Кол-во комнат</label>
-                    <input type="text" class="form-control"/>
-                </div>
-                <div class="col-sm-1 form-group">
-                    <label>Цена от</label>
-                    <input type="text" class="form-control"/>
-                </div>
-                <div class="col-sm-1 form-group">
-                    <label>Цена до</label>
-                    <input type="text" class="form-control"/>
+                    <input type="number" class="form-control" th:field="*{roomNumber}">
                 </div>
                 <div class="col-sm-1 form-group">
                     <label class="invisible">""</label>
@@ -35,8 +40,25 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="offset-10 col-sm-2">
-                    <a class="btn-link" href="#">Расширенный поиск</a>
+                <div class="offset-sm-3 col-sm-2 form-group">
+                    <label>Улица</label>
+                    <input type="text" class="form-control" th:field="*{street}">
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label>Цена от</label>
+                    <input type="number" step="any" class="form-control" th:field="*{priceFrom}">
+                </div>
+                <div class="col-sm-1 form-group">
+                    <label>Цена до</label>
+                    <input type="number" step="any" class="form-control" th:field="*{priceTo}">
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label>Плодащь от</label>
+                    <input type="number" step="any" class="form-control" th:field="*{areaFrom}">
+                </div>
+                <div class="col-sm-2 form-group">
+                    <label>Плодащь до</label>
+                    <input type="number" step="any" class="form-control" th:field="*{areaTo}">
                 </div>
             </div>
         </form>

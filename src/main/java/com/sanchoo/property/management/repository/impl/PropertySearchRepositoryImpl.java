@@ -32,7 +32,7 @@ public class PropertySearchRepositoryImpl implements PropertySearchRepository {
 	private PropertyTypeService propertyTypeService;
 
 	@Override
-	public List<Property> findSalesAdsByPropertyDto(PropertyDto propertyDto, int serviceTypeId) {
+	public List<Property> findAdsByPropertyDto(PropertyDto propertyDto, int serviceTypeId) {
 		CriteriaBuilder cb = entityManager.getCriteriaBuilder();
 		CriteriaQuery<Property> query = cb.createQuery(Property.class);
 		Root<Property> root = query.from(Property.class);

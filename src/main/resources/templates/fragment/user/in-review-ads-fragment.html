@@ -21,13 +21,13 @@
     <div class="card-footer text-center">
         <div class="row">
             <div class="col-sm-6 p-2">
-                <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/user/in-review-ads'})}"
+                <a th:href="@{/user/ad/edit/{id}(id=${property.id}, url=${'/user/in-review-ads' + '?size=' + propertyPage.size + '&page=' + (propertyPage.number + 1)})}"
                    class="btn btn-primary">Редактировать</a>
             </div>
             <div class="col-sm-6 p-2">
                 <form class="mb-0" th:action="@{/user/ad/deactivate}" method="post">
                     <input type="hidden" th:value="${property.id}" name="id">
-                    <input type="hidden" value="/user/in-review-ads" name="url">
+                    <input type="hidden" th:value="${'/user/in-review-ads' + '?size=' + propertyPage.size + '&page=' + (propertyPage.number + 1)}" name="url">
                     <button type="submit" class="btn btn-primary">Деактивировать</button>
                 </form>
             </div>

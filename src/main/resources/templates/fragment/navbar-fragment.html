@@ -29,18 +29,18 @@
         <a class="nav-link" th:href="@{/moderator/check-ads}">Объявления на проверку</a>
     </li>
 
-    <li class="nav-item dropdown">
+    <li class="nav-item dropdown" th:with="notifications=${@notificationServiceImpl.findAllActiveNotifications(#authentication.name)}">
         <a class="nav-link dropdown-toggle" href="#"
            th:classappend="${@notificationServiceImpl.findAllActiveNotifications(#authentication.name).size != 0}? text-success">
-            Уведомления
+            <img class="img-fluid" width="30px" height="30px" th:src="@{/images/{photo}.png(photo=${notifications.size == 0? 'not-notif' : 'notif'})}">
         </a>
         <div class="dropdown-menu dropdown-menu-right">
             <div class="dropdown-header">
                 <a th:href="@{/user/notification}">Все уведомления</a>
             </div>
-            <div class="overflow-menu" th:with="notifications=${@notificationServiceImpl.findAllActiveNotifications(#authentication.name)}">
+            <div class="overflow-menu">
 
-                <p class="my-1 font-weight-bold" th:if="${notifications.size == 0}">Новые уведомления отсутствуют!</p>
+                <p class="my-1 font-weight-bold" th:if="${notifications.size == 0}">Нет уведомлений!</p>
 
                 <th:block th:each="notification, iStat : ${notifications}">
                     <a class="dropdown-item"
@@ -68,7 +68,7 @@
     </li>
     <li class="nav-item">
         <img th:src="@{/img/user/{fileName}(fileName=${@userServiceImpl.findUserByUserName(#authentication.name).getFileName()})}"
-             class="rounded-circle" width="40" height="40"/>
+             class="rounded-circle" width="40px" height="40px"/>
     </li>
 </ul>
 

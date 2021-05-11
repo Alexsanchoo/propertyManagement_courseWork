@@ -33,7 +33,7 @@
                 Сменить роль
             </button>
             <div class="dropdown-menu">
-                <form th:action="@{/admin/change-role}" method="post">
+                <form class="mb-0" th:action="@{/admin/change-role}" method="post">
                     <input type="hidden" th:value="${user.id}" name="id">
                     <input type="hidden" value="/admin/moderators" name="url">
                     <input type="hidden" value="ROLE_USER" name="roleName">
@@ -45,7 +45,7 @@
 
                 </form>
                 <div class="dropdown-divider"></div>
-                <form th:action="@{/admin/change-role}" method="post">
+                <form class="mb-0" th:action="@{/admin/change-role}" method="post">
                     <input type="hidden" th:value="${user.id}" name="id">
                     <input type="hidden" value="/admin/moderators" name="url">
                     <input type="hidden" value="ROLE_MODERATOR" name="roleName">

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<main th:fragment="notification-list">
+    <section class="my-3">
+        <div class="container">
+            <h3 class="text-center my-3" th:if="${notificationPage.totalPages <= 0}">Уведомлений нет!</h3>
+
+            <div class="my-3 d-flex justify-content-center">
+                <form class="mb-1 mr-3" th:action="@{/user/notification/read/all}" method="post">
+                    <input type="hidden" value="/user/notification" name="url">
+                    <button type="submit" class="btn btn-primary">Прочитать все</button>
+                </form>
+                <form class="mb-0" th:action="@{/user/notification/delete/all}" method="post">
+                    <input type="hidden" value="/user/notification" name="url">
+                    <button type="submit" class="btn btn-primary">Удалить все</button>
+                </form>
+            </div>
+
+            <h3 class="text-center my-3" th:if="${notificationPage.totalPages > 0}">УВЕДОМЛЕНИЯ</h3>
+
+            <th:block th:each="notification, iStat : ${notificationPage.content}">
+                <div class="row my-2">
+                    <div class="col-sm-12">
+                        <div th:id="${'notif' + notification.id}" class=" border border-primary rounded text-dark p-2"
+                             th:style="${notification.isActive}? 'background-color: #59AAFF'">
+                            <h4 th:text="${'Уведомление от ' + notification.userFrom.firstName + ' ' + notification.userFrom.lastName}"></h4>
+                            <p class="text-justify" th:text="${notification.message}"></p>
+                            <div class="d-flex justify-content-between">
+                                <div class="d-flex justify-content-start">
+                                    <form class="mb-0 mr-3" th:action="@{/user/notification/read}" method="post">
+                                        <input type="hidden" th:value="${notification.id}" name="id">
+                                        <input type="hidden" value="/user/notification" name="url">
+                                        <button type="submit" class="btn btn-primary">Прочитать</button>
+                                    </form>
+                                    <form class="mb-0 mr-3" th:action="@{/user/notification/delete}" method="post">
+                                        <input type="hidden" th:value="${notification.id}" name="id">
+                                        <input type="hidden" value="/user/notification" name="url">
+                                        <button type="submit" class="btn btn-primary">Удалить</button>
+                                    </form>
+                                </div>
+                                <p class="text-right mb-0"
+                                   th:text="${#temporals.format(notification.dateTime, 'dd.MM.yyyy HH:mm:ss')}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </th:block>
+
+            <nav class="my-3" th:if="${notificationPage.totalPages > 0}">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item" th:classappend="${notificationPage.number == 0} ? disabled">
+                        <a class="page-link"
+                           th:href="@{/user/notification(size=${notificationPage.size}, page=${notificationPage.number})}"
+                           tabindex="-1">Предыдущая</a>
+                    </li>
+                    <th:block th:each="pageNumber : ${pageNumbers}">
+                        <li class="page-item" th:classappend="${pageNumber==notificationPage.number + 1} ? active">
+                            <a class="page-link"
+                               th:href="@{/user/notification(size=${notificationPage.size}, page=${pageNumber})}"
+                               th:text="${pageNumber}"></a>
+                        </li>
+                    </th:block>
+                    <li class="page-item"
+                        th:classappend="${notificationPage.number + 1 == notificationPage.totalPages} ? disabled">
+                        <a class="page-link"
+                           th:href="@{/user/notification(size=${notificationPage.size}, page=${notificationPage.number + 2})}"
+                           tabindex="-1">Следующая</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</main>
+</body>
+</html>

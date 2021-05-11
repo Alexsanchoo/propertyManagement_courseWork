@@ -2,70 +2,99 @@
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.springframework.org/schema/security">
 <body>
-    <!--Guest items of navbar-->
-    <ul class="navbar-nav ml-auto" th:fragment="guest-navbar-items">
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/login}">Войти</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" th:href="@{/registration}">Регистрация</a>
-        </li>
-    </ul>
+<!--Guest items of navbar-->
+<ul class="navbar-nav ml-auto" th:fragment="guest-navbar-items">
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/login}">Войти</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/registration}">Регистрация</a>
+    </li>
+</ul>
 
-    <!--User/moderator items of navbar-->
-    <ul class="navbar-nav ml-auto" th:fragment="user-moderator-navbar-items">
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/user/active-ads}">Мои объявления</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/user/ad/add}">Подать объявление</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/user/favorites-ads}">Избранное</a>
-            </li>
+<!--User/moderator items of navbar-->
+<ul class="navbar-nav ml-auto" th:fragment="user-moderator-navbar-items">
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/user/active-ads}">Мои объявления</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/user/ad/add}">Подать объявление</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/user/favorites-ads}">Избранное</a>
+    </li>
 
-            <!--Moderator link-->
-            <li class="nav-item" sec:authorize="hasRole('MODERATOR')">
-                <a class="nav-link" th:href="@{/moderator/check-ads}">Объявления на проверку</a>
-            </li>
+    <!--Moderator link-->
+    <li class="nav-item" sec:authorize="hasRole('MODERATOR')">
+        <a class="nav-link" th:href="@{/moderator/check-ads}">Объявления на проверку</a>
+    </li>
 
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    Профиль
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" th:href="@{/edit/profile}">Редактировать профиль</a>
-                    <a class="dropdown-item" th:href="@{/edit/password}">Изменить пароль</a>
-                    <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <img th:src="@{/img/user/{fileName}(fileName=${@userServiceImpl.findUserByUserName(#authentication.name).getFileName()})}" class="rounded-circle" width="40" height="40"/>
-            </li>
-    </ul>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#"
+           th:classappend="${@notificationServiceImpl.findAllActiveNotifications(#authentication.name).size != 0}? text-success">
+            Уведомления
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-header">
+                <a th:href="@{/user/notification}">Все уведомления</a>
+            </div>
+            <div class="overflow-menu" th:with="notifications=${@notificationServiceImpl.findAllActiveNotifications(#authentication.name)}">
+
+                <p class="my-1 font-weight-bold" th:if="${notifications.size == 0}">Новые уведомления отсутствуют!</p>
+
+                <th:block th:each="notification, iStat : ${notifications}">
+                    <a class="dropdown-item"
+                       th:href="@{/user/notification}">
+                        <p class="mb-0 font-weight-bold"
+                           th:text="${'Уведомление от ' + notification.userFrom.firstName + ' ' + notification.userFrom.lastName}"></p>
+                        <p class="mb-0" th:text="${notification.message.substring(0, 30) + '...'}"></p>
+                        <p class="text-right mb-0"
+                           th:text="${#temporals.format(notification.dateTime, 'dd.MM.yyyy HH:mm:ss')}"></p>
+                    </a>
+                </th:block>
+            </div>
+        </div>
+    </li>
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+            Профиль
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" th:href="@{/edit/profile}">Редактировать профиль</a>
+            <a class="dropdown-item" th:href="@{/edit/password}">Изменить пароль</a>
+            <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <img th:src="@{/img/user/{fileName}(fileName=${@userServiceImpl.findUserByUserName(#authentication.name).getFileName()})}"
+             class="rounded-circle" width="40" height="40"/>
+    </li>
+</ul>
 
 
-        <!--Admin items of navbar-->
-    <ul class="navbar-nav ml-auto" th:fragment="admin-navbar-items">
-            <li class="nav-item">
-                <a class="nav-link" href="#">Тех. поддержка</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/users}">Список пользователей</a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
-                    Профиль
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" th:href="@{/edit/profile}">Редактировать профиль</a>
-                    <a class="dropdown-item" th:href="@{/edit/password}">Изменить пароль</a>
-                    <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
-                </div>
-            </li>
-            <li class="nav-item">
-                <img th:src="@{/img/user/{fileName}(fileName=${@userServiceImpl.findUserByUserName(#authentication.name).getFileName()})}" class="rounded-circle" width="40" height="40"/>
-            </li>
-    </ul>
+<!--Admin items of navbar-->
+<ul class="navbar-nav ml-auto" th:fragment="admin-navbar-items">
+    <li class="nav-item">
+        <a class="nav-link" href="#">Тех. поддержка</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" th:href="@{/admin/users}">Список пользователей</a>
+    </li>
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+            Профиль
+        </a>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" th:href="@{/edit/profile}">Редактировать профиль</a>
+            <a class="dropdown-item" th:href="@{/edit/password}">Изменить пароль</a>
+            <a class="dropdown-item" th:href="@{/perform_logout}">Выход</a>
+        </div>
+    </li>
+    <li class="nav-item">
+        <img th:src="@{/img/user/{fileName}(fileName=${@userServiceImpl.findUserByUserName(#authentication.name).getFileName()})}"
+             class="rounded-circle" width="40" height="40"/>
+    </li>
+</ul>
 </body>
 </html>

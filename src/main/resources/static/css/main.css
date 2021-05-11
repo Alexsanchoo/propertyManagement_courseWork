@@ -18,3 +18,8 @@
 .scale-img:hover {
     transform: scale(1.2);
 }
+
+.overflow-menu {
+    max-height: calc(100vh - 300px);
+    overflow-y: scroll;
+}

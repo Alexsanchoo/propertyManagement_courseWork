@@ -1,6 +1,7 @@
 package com.sanchoo.property.management.service.property.impl;
 
 import com.sanchoo.property.management.dto.property.PropertyDto;
+import com.sanchoo.property.management.entity.notification.Notification;
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyStatus;
 import com.sanchoo.property.management.entity.property.ServiceType;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -247,14 +249,58 @@ public class PropertyServiceImpl implements PropertyService {
 
 	@Override
 	public void approveProperty(int id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = this.userService.findUserByUserName(auth.getName());
+
 		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
-		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.APPROVED));
+		propertyOptional.ifPresent(property -> {
+			property.setStatus(PropertyStatus.APPROVED);
+			Notification notification = new Notification();
+			notification.setActive(true);
+			notification.setUserFrom(user);
+			StringBuilder sb = new StringBuilder("Ваше объявление: ")
+					.append(property.getPropertyType().getName()).append(", ")
+					.append("г. ").append(property.getCity()).append(", ")
+					.append("р-н ").append(property.getDistrict()).append(", ")
+					.append("ул. ").append(property.getStreet());
+			if(!property.getHouseNumber().equals("0")) {
+				sb.append(", ").append(property.getHouseNumber());
+			}
+			sb.append("\nбыло одобрено!");
+			notification.setMessage(sb.toString());
+			notification.setDateTime(LocalDateTime.now());
+
+			User propertyUser = property.getUser();
+			propertyUser.getNotifications().add(notification);
+		});
 	}
 
 	@Override
 	public void denyProperty(int id) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		User user = this.userService.findUserByUserName(auth.getName());
+
 		Optional<Property> propertyOptional = this.propertyRepository.findById(id);
-		propertyOptional.ifPresent(property -> property.setStatus(PropertyStatus.DENIED));
+		propertyOptional.ifPresent(property -> {
+			property.setStatus(PropertyStatus.DENIED);
+			Notification notification = new Notification();
+			notification.setActive(true);
+			notification.setUserFrom(user);
+			StringBuilder sb = new StringBuilder("Ваше объявление: ")
+					.append(property.getPropertyType().getName()).append(", ")
+					.append("г. ").append(property.getCity()).append(", ")
+					.append("р-н ").append(property.getDistrict()).append(", ")
+					.append("ул. ").append(property.getStreet());
+			if(!property.getHouseNumber().equals("0")) {
+				sb.append(", ").append(property.getHouseNumber());
+			}
+			sb.append("\nбыло отклонено!");
+			notification.setMessage(sb.toString());
+			notification.setDateTime(LocalDateTime.now());
+
+			User propertyUser = property.getUser();
+			propertyUser.getNotifications().add(notification);
+		});
 	}
 
 	@Override

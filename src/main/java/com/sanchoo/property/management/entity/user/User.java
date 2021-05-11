@@ -1,5 +1,6 @@
 package com.sanchoo.property.management.entity.user;
 
+import com.sanchoo.property.management.entity.notification.Notification;
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.validator.group.BasicInfo;
 import com.sanchoo.property.management.validator.group.RegistrationInfo;
@@ -86,4 +87,8 @@ public class User {
 	@ManyToMany
 	@JoinTable(name="user_property", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "property_id"))
 	private List<Property> favoritesProperty;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "user_to_id")
+	private List<Notification> notifications;
 }

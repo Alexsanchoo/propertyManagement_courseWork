@@ -1,11 +1,13 @@
 package com.sanchoo.property.management.controller;
 
 import com.sanchoo.property.management.dto.property.PropertyDto;
+import com.sanchoo.property.management.entity.notification.Notification;
 import com.sanchoo.property.management.entity.photo.Photo;
 import com.sanchoo.property.management.entity.property.Property;
 import com.sanchoo.property.management.entity.property.PropertyType;
 import com.sanchoo.property.management.entity.property.ServiceType;
 import com.sanchoo.property.management.mapper.PropertyMapper;
+import com.sanchoo.property.management.service.notification.NotificationService;
 import com.sanchoo.property.management.service.property.PropertyService;
 import com.sanchoo.property.management.service.property.PropertyTypeService;
 import com.sanchoo.property.management.service.property.ServiceTypeService;
@@ -58,6 +60,9 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+
+	@Autowired
+	private NotificationService notificationService;
 
 	@GetMapping("/active-ads")
 	public String showActiveAds(Model model,
@@ -215,5 +220,62 @@ public class UserController {
 			}
 		}
 		return photoList;
+	}
+
+	@GetMapping("/notification")
+	public String showNotifications(Model model,
+									@RequestParam("page") Optional<Integer> page,
+									@RequestParam("size") Optional<Integer> size) {
+
+		int currentPage = page.orElse(1);
+		int pageSize = size.orElse(6);
+
+		Page<Notification> notificationPage = this.notificationService.findPaginatedNotifications(PageRequest.of(currentPage - 1, pageSize));
+
+		model.addAttribute("notificationPage", notificationPage);
+
+		int totalPages = notificationPage.getTotalPages();
+		if (totalPages > 0) {
+			List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages)
+					.boxed()
+					.collect(Collectors.toList());
+			model.addAttribute("pageNumbers", pageNumbers);
+		}
+
+		return "notification/notification";
+	}
+
+	@PostMapping("/notification/read")
+	public String readNotification(@RequestParam int id,
+								   @RequestParam String url) {
+
+		this.notificationService.readNotification(id);
+
+		return "redirect:" + url;
+	}
+
+	@PostMapping("/notification/read/all")
+	public String readAllNotifications(@RequestParam String url) {
+
+		this.notificationService.readAllNotifications();
+
+		return "redirect:" + url;
+	}
+
+	@PostMapping("/notification/delete")
+	public String deleteNotification(@RequestParam int id,
+									 @RequestParam String url) {
+
+		this.notificationService.deleteNotification(id);
+
+		return "redirect:" + url;
+	}
+
+	@PostMapping("/notification/delete/all")
+	public String deleteAllNotifications(@RequestParam String url) {
+
+		this.notificationService.deleteAllNotifications();
+
+		return "redirect:" + url;
 	}
 }
